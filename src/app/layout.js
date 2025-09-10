@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
         <ReduxProvider>
           <AOSProvider>
             <Header />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 overflow-hidden">{children}</main>
             <Footer />
           </AOSProvider>
         </ReduxProvider>
