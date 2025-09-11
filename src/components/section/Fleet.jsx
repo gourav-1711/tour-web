@@ -48,7 +48,7 @@ export default function Fleet() {
                   "Day trip Extra",
                   "Border tax extra",
                 ],
-                price: "For Local ₹4500/-",
+                price: "For Local ₹3500/-",
                 image: "/innova.png",
               },
               {
@@ -60,7 +60,7 @@ export default function Fleet() {
                   "Day trip Extra",
                   "Border tax extra",
                 ],
-                price: "For Local ₹4800/-",
+                price: "For Local ₹4000/-",
                 image: "/innovacrysta.png",
               },
               {
@@ -80,38 +80,38 @@ export default function Fleet() {
               <div
                 data-aos="fade-up"
                 data-aos-delay={(index % 2) * 50}
-                className="relative w-[95%] md:w-[75%] lg:w-[47%]"
+                className="relative w-[98%] p-3 sm:p-0 sm:w-[85%] md:w-[70%] lg:w-[47%]"
                 key={index}
               >
                 {/* Background box */}
-                <div className="rounded-[13px] absolute top-1/10 -translate-y-1/10 left-[55%] md:left-1/2 -translate-x-1/2 bg-red-500 max-w-[100%] w-[365px] md:w-[339px] h-[260px] md:h-[234px] z-0 p-2"></div>
+                <div className="rounded-[13px] absolute top-1/10 -translate-y-1/10 left-1/2 -translate-x-1/2 bg-red-500 max-w-[100%] w-[339px] h-[260px] sm:h-[234px] z-0 p-2"></div>
 
                 {/* Title */}
-                <h3 className="relative z-10 text-2xl font-bold mb-4 text-center text-background">
+                <h3 className="relative z-10 text-2xl font-bold mb-2 sm:mb-4 text-center text-background">
                   {vehicle.name}
                 </h3>
 
                 {/* Content */}
-                <div className="flex gap-4 relative z-10">
+                <div className="flex gap-0 sm:gap-2 relative z-10 ">
                   <div className="flex items-center">
                     <Image
                       width={200}
                       height={200}
                       src={vehicle.image || "/placeholder.svg"}
                       alt={vehicle.name}
-                      className="h-28 md:h-36 w-auto drop-shadow-lg"
+                      className="h-32 sm:h-36 w-auto drop-shadow-lg -ml-11 [@media(min-width:550px)]:-ml-0 sm:-mr-0 "
                     />
                   </div>
                   <div className="text-background">
                     {/* Features */}
-                    <ul className="text-sm space-y-1 mb-4 ml-1 md:ml-3 font-medium text-shadow-sm">
+                    <ul className="text-sm space-y-1 mb-2 sm:mb-4 font-medium text-shadow-sm -ml-9 [@media(min-width:550px)]:-ml-0">
                       {vehicle.features.map((feature, idx) => (
                         <li key={idx}>{feature}</li>
                       ))}
                     </ul>
                     {/* Price */}
                     {vehicle.price && (
-                      <p className="font-semibold text-sm mb-4 ml-3">
+                      <p className="font-semibold text-sm mb-2 sm:mb-4 -ml-9 [@media(min-width:550px)]:-ml-0">
                         {vehicle.price}
                       </p>
                     )}
@@ -132,7 +132,7 @@ export default function Fleet() {
 
 //  <Card
 //                 key={index}
-//                 className="relative bg-red-500 text-white shadow-lg overflow-visible max-w-sm mx-auto rounded-lg w-[95%] md:w-[45%]"
+//                 className="relative bg-red-500 text-white shadow-lg overflow-visible max-w-sm mx-auto rounded-lg w-[95%] sm:w-[45%]"
 //               >
 //                 <CardContent className="p-6 text-center">
 //                   {/* Vehicle Name */}
