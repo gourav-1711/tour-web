@@ -24,8 +24,9 @@ export async function POST(req) {
     });
 
     // email details
+    // <${process.env.SENDER_EMAIL}>
     await transporter.sendMail({
-      from: `"Tour Booking System" <${process.env.SENDER_EMAIL}>`,
+      from: `"Tour Booking System" `,
       to: process.env.MY_GMAIL,
       subject: `🚗 New Tour Booking Request - ${body.state}, ${body.city}`,
       text: `
