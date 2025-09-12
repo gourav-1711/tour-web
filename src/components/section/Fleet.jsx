@@ -1,9 +1,16 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Fleet() {
+  const router = useRouter();
+
+  const bookDestination = (destination) => {
+    router.push(`/booking?destination=${destination}`);
+  };
   return (
     <div>
       {/* Our Fleet */}
@@ -116,7 +123,10 @@ export default function Fleet() {
                       </p>
                     )}
                     {/* Book Button */}
-                    <Button className="w-full bg-white text-red-500 font-semibold hover:bg-gray-100">
+                    <Button
+                      onClick={() => bookDestination("NA")}
+                      className="w-full bg-white text-red-500 font-semibold hover:bg-gray-100"
+                    >
                       Book
                     </Button>
                   </div>

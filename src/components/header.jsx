@@ -24,10 +24,17 @@ export const Header = () => {
     { name: "Contact", href: "/contact" },
   ];
   useEffect(() => {
-    if(pathname == "/#about"){
-      s
+    // get the hash from the URL
+    const hash = window.location.hash;
+
+    if (hash) {
+      // find the element with the same ID
+      const el = document.querySelector(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
     }
-  }, []);
+  }, [pathname]);
   return (
     <header className="w-full border-b bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
@@ -38,7 +45,7 @@ export const Header = () => {
             alt="Logo"
             width={40}
             height={40}
-            className="rounded size-10 md:size-14"
+            className="rounded object-cover size-10 md:size-14"
           />
           <span className="font-bold text-lg sr-only">Cab Service</span>
         </Link>
@@ -49,9 +56,11 @@ export const Header = () => {
             <Link
               key={link.name}
               href={link.href}
-              className="text-gray-700 hover:text-red-500 font-medium"
+              className="text-gray-700 hover:text-red-500 font-medium relative group"
             >
               {link.name}
+              {/* line hover effect */}
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[3px] border-transparent group-hover:border-red-500 rounded-b-2xl group-hover:w-full transition-all duration-300"></span>
             </Link>
           ))}
         </nav>
@@ -74,7 +83,7 @@ export const Header = () => {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className="text-lg font-medium text-gray-800 hover:text-red-500"
+                    className="text-lg font-medium text-gray-800 hover:text-red-500 "
                   >
                     {link.name}
                   </Link>

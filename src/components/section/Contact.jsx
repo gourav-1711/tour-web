@@ -28,7 +28,8 @@ export default function Contact() {
             <h2 className="text-2xl font-bold mb-8">Contact Information</h2>
 
             <div className="space-y-6">
-              <div
+              <a
+                href={`tel:${process.env.NEXT_PUBLIC_MOBILE_NUMBER}`}
                 className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300"
                 data-aos="fade-right"
                 data-aos-delay="150"
@@ -38,11 +39,12 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Call Us</h3>
-                  <p className="text-slate-700">+91 98765 43210</p>
+                  <p className="text-slate-700">+91 {process.env.NEXT_PUBLIC_MOBILE_NUMBER}</p>
                 </div>
-              </div>
+              </a>
 
-              <div
+              <a
+                href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}`}
                 className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300"
                 data-aos="fade-right"
                 data-aos-delay="200"
@@ -52,11 +54,12 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Email Us</h3>
-                  <p className="text-slate-700">support@example.com</p>
+                  <p className="text-slate-700">{process.env.NEXT_PUBLIC_EMAIL}</p>
                 </div>
-              </div>
+              </a>
 
-              <div
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${process.env.NEXT_PUBLIC_OFFICE_ADDRESS}`}
                 className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300"
                 data-aos="fade-right"
                 data-aos-delay="250"
@@ -66,15 +69,15 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Our Office</h3>
-                  <p className="text-slate-700">123 Jodhpur, Rajasthan</p>
+                  <p className="text-slate-700">{process.env.NEXT_PUBLIC_OFFICE_ADDRESS}</p>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 
           <div className="" data-aos="fade-left" data-aos-delay="100">
             <div className="flex items-center gap-2 mb-6">
-              <Send className="h-6 w-6 text-blue-600" />
+              <Send className="h-6 w-6 text-red-600" />
               <h2 className="text-2xl font-bold text-gray-800">
                 Send us a message
               </h2>

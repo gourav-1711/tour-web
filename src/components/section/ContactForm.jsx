@@ -90,8 +90,8 @@ export function ContactForm() {
           disabled={isSubmitting}
           className={`w-full py-6 text-lg font-medium rounded-xl shadow-lg transition-all duration-300 transform ${
             isSubmitting
-              ? "bg-gradient-to-r from-blue-400 to-purple-400"
-              : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 hover:shadow-xl hover:-translate-y-0.5"
+              ? "bg-gradient-to-r from-red-400 to-red-500"
+              : "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 hover:shadow-xl hover:-translate-y-0.5"
           }`}
         >
           {isSubmitting ? (

@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useRouter } from "next/navigation";
+import { Send } from "lucide-react";
 
 export default function Destination() {
   const destinations = [
@@ -43,6 +46,11 @@ export default function Destination() {
       image: "/ahmedabad.png",
     },
   ];
+  const router = useRouter();
+
+  const bookDestination = (destination) => {
+    router.push(`/booking?destination=${destination}`);
+  };
 
   return (
     <section className="py-16 bg-gray-50">
@@ -81,10 +89,12 @@ export default function Destination() {
                         {destination.name}
                       </h3>
                       <Button
+                        // asChild
+                        onClick={() => bookDestination(destination.name)}
                         className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 transform transition-all duration-300 group-hover:scale-110"
                         size="sm"
                       >
-                        Book Now
+                        Book Now <Send />
                       </Button>
                     </div>
                   </div>
@@ -93,20 +103,9 @@ export default function Destination() {
             </div>
           ))}
         </div>
-
-        {/* <div
-          className="text-center mt-12"
-          data-aos="fade-up"
-          data-aos-delay="200"
-        >
-          <Button
-            variant="outline"
-            className="border-2 border-red-500 text-red-500 hover:bg-red-50 hover:border-red-600 hover:text-red-600 px-8 py-3 text-lg transition-all duration-300"
-          >
-            View All Destinations
-          </Button>
-        </div> */}
       </div>
     </section>
   );
 }
+
+
