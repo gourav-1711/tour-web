@@ -8,9 +8,78 @@ import { useRouter } from "next/navigation";
 export default function Fleet() {
   const router = useRouter();
 
-  const bookDestination = (destination) => {
-    router.push(`/booking?destination=${destination}`);
+  const bookDestination = (destination, rate) => {
+    router.push(`/booking?destination=${destination}&rate=${rate}`);
   };
+
+  const fleetArr = [
+    {
+      name: "Sedan",
+      rate: "₹12 per KM",
+      features: [
+        "₹12 per KM",
+        "300 running fix",
+        "Night local extra",
+        "Day trip Extra",
+        "Border tax extra",
+      ],
+      price: "For Local ₹2500/-",
+      image: "/sedan.png",
+    },
+    {
+      name: "Ertiga",
+      rate: "₹13 per KM",
+      features: [
+        "₹13 per KM",
+        "300 running fix",
+        "Night local extra",
+        "Day trip Extra",
+        "Border tax extra",
+      ],
+      price: "For Local ₹2500/-",
+      image: "/ertiga.png",
+    },
+    {
+      name: "Innova",
+      rate: "₹15 per KM",
+      features: [
+        "₹15 per KM",
+        "300 running fix",
+        "Night local extra",
+        "Day trip Extra",
+        "Border tax extra",
+      ],
+      price: "For Local ₹3500/-",
+      image: "/innova.png",
+    },
+    {
+      name: "Innova Crysta",
+      rate: "₹18 per KM",
+      features: [
+        "₹18 per KM",
+        "300 running fix",
+        "Night local extra",
+        "Day trip Extra",
+        "Border tax extra",
+      ],
+      price: "For Local ₹3800/-",
+      image: "/innovacrysta.png",
+    },
+    {
+      name: "Tempo Traveller",
+      rate: "₹25 per KM",
+      features: [
+        "₹25 per KM",
+        "300 running fix",
+        "Night local extra",
+        "Day trip Extra",
+        "Border tax extra",
+      ],
+      price: "",
+      image: "/tempo.png",
+      isLarge: true,
+    },
+  ];
   return (
     <div>
       {/* Our Fleet */}
@@ -21,69 +90,7 @@ export default function Fleet() {
           </h2>
 
           <div className="flex flex-wrap justify-center space-y-6 gap-6 max-w-6xl mx-auto">
-            {[
-              {
-                name: "Sedan",
-                subtitle: "City Rides",
-                features: [
-                  "Fit 4 Pax",
-                  "Night local extra",
-                  "Day trip Extra",
-                  "Border tax extra",
-                ],
-                price: "For Local ₹2500/-",
-                image: "/sedan.png",
-              },
-              {
-                name: "Ertiga",
-                subtitle: "Fit 6 Pax",
-                features: [
-                  "300 running for",
-                  "Night local extra",
-                  "Day trip Extra",
-                  "Border tax extra",
-                ],
-                price: "For Local ₹3500/-",
-                image: "/ertiga.png",
-              },
-              {
-                name: "Innova",
-                subtitle: "Fit 6 Pax",
-                features: [
-                  "300 running for",
-                  "Night local extra",
-                  "Day trip Extra",
-                  "Border tax extra",
-                ],
-                price: "For Local ₹3500/-",
-                image: "/innova.png",
-              },
-              {
-                name: "Innova Crysta",
-                subtitle: "Fit 6 Pax",
-                features: [
-                  "300 running for",
-                  "Night local extra",
-                  "Day trip Extra",
-                  "Border tax extra",
-                ],
-                price: "For Local ₹4000/-",
-                image: "/innovacrysta.png",
-              },
-              {
-                name: "Tempo Traveller",
-                subtitle: "Fit 12 Pax",
-                features: [
-                  "300 running for",
-                  "Night local extra",
-                  "Day trip Extra",
-                  "Border tax extra",
-                ],
-                price: "",
-                image: "/tempo.png",
-                isLarge: true,
-              },
-            ].map((vehicle, index) => (
+            {fleetArr.map((vehicle, index) => (
               <div
                 data-aos="fade-up"
                 data-aos-delay={(index % 2) * 50}
@@ -91,7 +98,7 @@ export default function Fleet() {
                 key={index}
               >
                 {/* Background box */}
-                <div className="rounded-[13px] absolute top-1/10 -translate-y-1/10 left-1/2 -translate-x-1/2 bg-red-500 max-w-[100%] w-[339px] h-[260px] sm:h-[234px] z-0 p-2"></div>
+                <div className="rounded-[13px] absolute top-1/10 -translate-y-1/10 left-1/2 -translate-x-1/2 bg-red-500 max-w-[100%] w-[339px] h-[260px] sm:h-[239px] z-0 p-2"></div>
 
                 {/* Title */}
                 <h3 className="relative z-10 text-2xl font-bold mb-2 sm:mb-4 text-center text-background">
@@ -111,20 +118,20 @@ export default function Fleet() {
                   </div>
                   <div className="text-background">
                     {/* Features */}
-                    <ul className="text-sm space-y-1 mb-2 sm:mb-4 font-medium text-shadow-sm -ml-9 [@media(min-width:550px)]:-ml-0">
+                    <ul className="text-sm space-y-1 mb-2 sm:mb-2 font-medium text-shadow-sm -ml-9 [@media(min-width:550px)]:-ml-0">
                       {vehicle.features.map((feature, idx) => (
                         <li key={idx}>{feature}</li>
                       ))}
                     </ul>
                     {/* Price */}
                     {vehicle.price && (
-                      <p className="font-semibold text-sm mb-2 sm:mb-4 -ml-9 [@media(min-width:550px)]:-ml-0">
+                      <p className="font-semibold text-sm mb-2 sm:mb-2 -ml-9 [@media(min-width:550px)]:-ml-0">
                         {vehicle.price}
                       </p>
                     )}
                     {/* Book Button */}
                     <Button
-                      onClick={() => bookDestination("NA")}
+                      onClick={() => bookDestination("_", vehicle.rate)}
                       className="w-full bg-white text-red-500 font-semibold hover:bg-gray-100"
                     >
                       Book

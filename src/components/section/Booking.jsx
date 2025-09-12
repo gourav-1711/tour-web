@@ -25,10 +25,13 @@ export default function Booking() {
   const [cities, setCities] = useState([]);
   const states = State.getStatesOfCountry("IN");
   const today = new Date();
+  const [rate, setRate] = useState("");
+  const [localRate, setLocalRate] = useState("");
 
   // Form states
   const [roundTripForm, setRoundTripForm] = useState({
     cab: "",
+    rate: rate || "",
     state: "",
     city: "",
     pickupAddress: "",
@@ -41,6 +44,7 @@ export default function Booking() {
 
   const [localTripForm, setLocalTripForm] = useState({
     cab: "",
+    rate: localRate || "",
     tripType: "",
     pickupAddress: "",
     dropAddress: "",
@@ -48,6 +52,52 @@ export default function Booking() {
     members: "",
     mobile: "",
   });
+
+  useEffect(() => {
+    if (roundTripForm.cab == "sedan") {
+      setRate("₹12 per KM");
+      setRoundTripForm({ ...roundTripForm, rate: "₹12 per KM" });
+    }
+    if (roundTripForm.cab == "ertiga") {
+      setRate("₹13 per KM");
+      setRoundTripForm({ ...roundTripForm, rate: "₹13 per KM" });
+    }
+    if (roundTripForm.cab == "innova") {
+      setRate("₹15 per KM");
+      setRoundTripForm({ ...roundTripForm, rate: "₹15 per KM" });
+    }
+    if (roundTripForm.cab == "crysta") {
+      setRate("₹18 per KM");
+      setRoundTripForm({ ...roundTripForm, rate: "₹18 per KM" });
+    }
+    if (roundTripForm.cab == "tempo") {
+      setRate("₹25 per KM");
+      setRoundTripForm({ ...roundTripForm, rate: "₹25 per KM" });
+    }
+  }, [roundTripForm.cab]);
+
+  useEffect(() => {
+    if (localTripForm.cab == "sedan") {
+      setLocalRate("₹12 per KM");
+      setLocalTripForm({ ...localTripForm, rate: "₹12 per KM" });
+    }
+    if (localTripForm.cab == "ertiga") {
+      setLocalRate("₹13 per KM");
+      setLocalTripForm({ ...localTripForm, rate: "₹13 per KM" });
+    }
+    if (localTripForm.cab == "innova") {
+      setLocalRate("₹15 per KM");
+      setLocalTripForm({ ...localTripForm, rate: "₹15 per KM" });
+    }
+    if (localTripForm.cab == "crysta") {
+      setLocalRate("₹18 per KM");
+      setLocalTripForm({ ...localTripForm, rate: "₹18 per KM" });
+    }
+    if (localTripForm.cab == "tempo") {
+      setLocalRate("₹25 per KM");
+      setLocalTripForm({ ...localTripForm, rate: "₹25 per KM" });
+    }
+  }, [localTripForm.cab]);
 
   // Update cities when state changes
   useEffect(() => {
@@ -109,6 +159,12 @@ export default function Booking() {
 
       const bookingData = {
         ...roundTripForm,
+        name:
+          roundTripForm.cab +
+          "_" +
+          roundTripForm.mobile +
+          "_" +
+          new Date().toISOString(),
         type: "round_trip",
         status: "pending",
         createdAt: new Date().toISOString(),
@@ -156,6 +212,12 @@ export default function Booking() {
 
       const bookingData = {
         ...localTripForm,
+        name:
+          localTripForm.cab +
+          "_" +
+          localTripForm.mobile +
+          "_" +
+          new Date().toISOString(),
         type: "local_trip",
         status: "pending",
         createdAt: new Date().toISOString(),
@@ -220,7 +282,7 @@ export default function Booking() {
 
                     <div className="space-y-4">
                       <div className="space-y-4">
-                        <div>
+                        <div className="space-y-1">
                           <Label htmlFor="cab">Select Cab</Label>
                           <Select
                             name="cab"
@@ -248,6 +310,13 @@ export default function Booking() {
                             </SelectContent>
                           </Select>
                         </div>
+                        {rate && roundTripForm.cab && (
+                          <div className="">
+                            <span className="text-sm font-bold text-gray-800">
+                              Rate: {rate}
+                            </span>
+                          </div>
+                        )}
 
                         <div className="grid grid-cols-2 gap-4">
                           <div>
@@ -447,6 +516,13 @@ export default function Booking() {
                               </SelectItem>
                             </SelectContent>
                           </Select>
+                          {localRate && localTripForm.cab && (
+                            <div className="">
+                              <span className="text-sm font-bold text-gray-800">
+                                Rate: {localRate}
+                              </span>
+                            </div>
+                          )}
                         </div>
 
                         <div className="space-y-2">

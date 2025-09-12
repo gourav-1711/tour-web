@@ -1,3 +1,4 @@
+"use client";
 import {
   Phone,
   MessageCircle,
@@ -9,8 +10,14 @@ import {
   Shield,
   Car,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function EnhancedFooter() {
+    const router = useRouter();
+
+    const handleNavigation = (route) => {
+        router.push(route);
+    };
   return (
     <footer className="bg-gradient-to-br from-white via-gray-50 to-white text-gray-800 relative overflow-hidden border-t border-gray-200">
       {/* Background Pattern */}
@@ -57,20 +64,20 @@ export default function EnhancedFooter() {
               </h4>
               <div className="space-y-3">
                 {[
-                  "Home",
-                  "Book Now",
-                  "Our Fleet",
-                  "Destinations",
-                  "About Us",
-                  "Contact",
+                  { name: "Home", href: "/" },
+                  { name: "Book Now", href: "/booking" },
+                  { name: "Our Fleet", href: "/#fleet" },
+                  { name: "Destinations", href: "/destinations" },
+                  { name: "About Us", href: "/#about" },
+                  { name: "Contact", href: "/contact" },
                 ].map((link) => (
-                  <a
-                    key={link}
-                    href={`#${link.toLowerCase().replace(" ", "-")}`}
+                  <span
+                    key={link.name}
+                    onClick={() => handleNavigation(link.toLowerCase().replace(" ", "-"))}
                     className="block text-gray-600 hover:text-red-600 transition-colors duration-300 hover:translate-x-2 transform hover:font-medium"
                   >
-                    {link}
-                  </a>
+                    {link.name}
+                  </span>
                 ))}
               </div>
             </div>
@@ -114,7 +121,7 @@ export default function EnhancedFooter() {
                   <div>
                     <p className="font-medium text-gray-800">Location</p>
                     <p className="text-gray-600 text-sm">
-                      Jodhpur, Rajasthan, India
+                     {process.env.NEXT_PUBLIC_OFFICE_ADDRESS}
                     </p>
                   </div>
                 </div>
@@ -130,7 +137,7 @@ export default function EnhancedFooter() {
                       href="tel:7568333373"
                       className="text-gray-600 hover:text-red-600 transition-colors"
                     >
-                      +91 7568333373
+                      {process.env.NEXT_PUBLIC_MOBILE_NUMBER}
                     </a>
                   </div>
                 </div>
@@ -143,7 +150,7 @@ export default function EnhancedFooter() {
                       href="mailto:info@tourcab.com"
                       className="text-gray-600 hover:text-red-600 transition-colors"
                     >
-                      info@tourcab.com
+                      {process.env.NEXT_PUBLIC_EMAIL}
                     </a>
                   </div>
                 </div>
@@ -179,15 +186,15 @@ export default function EnhancedFooter() {
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
                 <a
-                  href="tel:7568333373"
+                  href={`tel:${process.env.NEXT_PUBLIC_MOBILE_NUMBER}`}
                   className="group flex items-center space-x-3 bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-700 hover:to-red-600 px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-red-200"
                 >
                   <Phone size={20} className="group-hover:animate-pulse" />
-                  <span>Call Now: 7568333373</span>
+                  <span>Call Now: {process.env.NEXT_PUBLIC_MOBILE_NUMBER}</span>
                 </a>
 
                 <a
-                  href="https://wa.me/917568333373"
+                  href={`https://wa.me/${process.env.NEXT_PUBLIC_MOBILE_NUMBER}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center space-x-3 bg-white text-red-600 border-2 border-red-100 hover:border-red-200 px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-gray-100"

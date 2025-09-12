@@ -2,10 +2,11 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReduxProvider } from "@/providers/redux-provider";
 import AOSProvider from "@/components/providers/AOSProvider";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "sonner";
 import ScrollToTop from "@/components/ui/scroll-to-top";
+import EnhancedFooter from "@/components/EnhancedFooter";
+import { Header } from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,8 @@ export default function RootLayout({ children }) {
             <Header />
             <Toaster />
             <main className="flex-1 overflow-hidden">{children}</main>
-            <Footer />
+            {/* <Footer /> */}
+            <EnhancedFooter />
             <ScrollToTop />
           </AOSProvider>
         </ReduxProvider>
