@@ -4,6 +4,7 @@ import { ReduxProvider } from "@/providers/redux-provider";
 import AOSProvider from "@/components/providers/AOSProvider";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
         <ReduxProvider>
           <AOSProvider>
             <Header />
+            <Toaster />
             <main className="flex-1 overflow-hidden">{children}</main>
             <Footer />
           </AOSProvider>

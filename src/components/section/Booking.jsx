@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Check } from "lucide-react";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { Check } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -11,16 +13,174 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Country, State, City } from "country-state-city";
+import { DateTimePicker } from "@/components/ui/date-time-picker";
+import { toast } from "sonner";
+import axios from "axios";
+import { getDatabase, ref, push, set } from "firebase/database";
+import { app } from "@/app/(firebase)/firebase.config";
+
 export default function Booking() {
+  const [cities, setCities] = useState([]);
+  const states = State.getStatesOfCountry("IN");
+  const today = new Date();
 
-// All states of India
-const states = State.getStatesOfCountry("IN");
+  // Form states
+  const [roundTripForm, setRoundTripForm] = useState({
+    cab: "",
+    state: "",
+    city: "",
+    pickupAddress: "",
+    dropAddress: "",
+    startDate: null,
+    endDate: null,
+    members: "",
+    mobile: "",
+  });
 
-// All cities of a state (e.g., Maharashtra)
-const cities = City.getCitiesOfState("IN", "MH");
+  const [localTripForm, setLocalTripForm] = useState({
+    cab: "",
+    tripType: "",
+    pickupAddress: "",
+    dropAddress: "",
+    dateTime: null,
+    members: "",
+    mobile: "",
+  });
 
-console.log(states);
-console.log(cities);
+  // Update cities when state changes
+  useEffect(() => {
+    if (roundTripForm.state) {
+      const stateCode = states.find(
+        (s) => s.name === roundTripForm.state
+      )?.isoCode;
+      if (stateCode) {
+        const stateCities = City.getCitiesOfState("IN", stateCode);
+        setCities(stateCities);
+      }
+    }
+  }, [roundTripForm.state]);
+
+  const handleRoundTripChange = (e) => {
+    const { name, value } = e.target;
+    setRoundTripForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLocalTripChange = (e) => {
+    const { name, value } = e.target;
+    setLocalTripForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validateForm = (formData, isLocal = false) => {
+    if (!formData.cab) return "Please select a cab type";
+    if (!isLocal && !formData.state) return "Please select a state";
+    if (!isLocal && !formData.city) return "Please select a city";
+    if (!formData.pickupAddress) return "Please enter pickup address";
+    if (!formData.dropAddress) return "Please enter drop address";
+    if (!formData.members) return "Please enter number of members";
+    if (!formData.mobile || !/^[0-9]{10}$/.test(formData.mobile))
+      return "Please enter a valid 10-digit mobile number";
+    if (isLocal) {
+      if (!formData.tripType) return "Please select a trip type";
+      if (!formData.dateTime) return "Please select date and time";
+    } else {
+      if (!formData.startDate) return "Please select start date";
+      if (!formData.endDate) return "Please select end date";
+      if (formData.startDate >= formData.endDate)
+        return "End date must be after start date";
+    }
+    return null;
+  };
+
+  const handleRoundTripSubmit = async (e) => {
+    e.preventDefault();
+    const error = validateForm(roundTripForm, false);
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    try {
+      // Save to Firebase
+      const db = getDatabase(app);
+      const bookingsRef = ref(db, "bookings");
+      const newBookingRef = push(bookingsRef);
+
+      const bookingData = {
+        ...roundTripForm,
+        type: "round_trip",
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        startDate: roundTripForm.startDate?.toISOString(),
+        endDate: roundTripForm.endDate?.toISOString(),
+      };
+
+      await set(newBookingRef, bookingData);
+
+      // Send email via API
+      await axios.post("/api/send", bookingData);
+
+      toast.success("Your round trip has been booked successfully!");
+      // Reset form after successful submission
+      setRoundTripForm({
+        cab: "",
+        state: "",
+        city: "",
+        pickupAddress: "",
+        dropAddress: "",
+        startDate: null,
+        endDate: null,
+        members: "",
+        mobile: "",
+      });
+    } catch (error) {
+      console.error("Error saving booking:", error);
+      toast.error("Failed to save booking. Please try again.");
+    }
+  };
+
+  const handleLocalTripSubmit = async (e) => {
+    e.preventDefault();
+    const error = validateForm(localTripForm, true);
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    try {
+      // Save to Firebase
+      const db = getDatabase(app);
+      const bookingsRef = ref(db, "bookings");
+      const newBookingRef = push(bookingsRef);
+
+      const bookingData = {
+        ...localTripForm,
+        type: "local_trip",
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        dateTime: localTripForm.dateTime?.toISOString(),
+      };
+
+      await set(newBookingRef, bookingData);
+
+      // Send email via API
+      await axios.post("/api/send", bookingData);
+
+      toast.success("Your local trip has been booked successfully!");
+      // Reset form after successful submission
+      setLocalTripForm({
+        cab: "",
+        tripType: "",
+        pickupAddress: "",
+        dropAddress: "",
+        dateTime: null,
+        members: "",
+        mobile: "",
+      });
+    } catch (error) {
+      console.error("Error saving booking:", error);
+      toast.error("Failed to save booking. Please try again.");
+    }
+  };
 
   return (
     <div>
@@ -40,145 +200,344 @@ console.log(cities);
             {/* Round Trip */}
             <Card className="bg-white shadow-lg">
               <CardContent className="p-8">
-                <div className="text-center mb-6">
-                  <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold">
-                    Round Trip
-                  </Button>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Select>
-                      <SelectTrigger className="bg-gray-50">
-                        <SelectValue placeholder="Select cab" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="sedan">Sedan</SelectItem>
-                        <SelectItem value="ertiga">Ertiga</SelectItem>
-                        <SelectItem value="innova">Innova</SelectItem>
-                        <SelectItem value="crysta">Innova Crysta</SelectItem>
-                        <SelectItem value="tempo">Tempo Traveller</SelectItem>
-                      </SelectContent>
-                    </Select>
-
-                    <Select name="place" model={false}>
-                      <SelectTrigger className="bg-gray-50">
-                        <SelectValue placeholder="Select place" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="jaipur">Jaipur</SelectItem>
-                        <SelectItem value="bikaner">Bikaner</SelectItem>
-                        <SelectItem value="jaisalmer">Jaisalmer</SelectItem>
-                        <SelectItem value="udaipur">Udaipur</SelectItem>
-                        <SelectItem value="pushkar">Pushkar</SelectItem>
-                      </SelectContent>
-                    </Select>
+                <form onSubmit={handleRoundTripSubmit}>
+                  <div className="text-center mb-6">
+                    <Button
+                      type="button"
+                      className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold w-full"
+                    >
+                      Round Trip
+                    </Button>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      placeholder="Pickup Address"
-                      className="bg-gray-50"
-                    />
-                    <Input placeholder="Drop Address" className="bg-gray-50" />
-                  </div>
+                  <div className="space-y-4">
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="cab">Select Cab</Label>
+                        <Select
+                          name="cab"
+                          value={roundTripForm.cab}
+                          onValueChange={(value) =>
+                            setRoundTripForm((prev) => ({
+                              ...prev,
+                              cab: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger className="w-full bg-gray-50">
+                            <SelectValue placeholder="Select cab" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="sedan">Sedan</SelectItem>
+                            <SelectItem value="ertiga">Ertiga</SelectItem>
+                            <SelectItem value="innova">Innova</SelectItem>
+                            <SelectItem value="crysta">
+                              Innova Crysta
+                            </SelectItem>
+                            <SelectItem value="tempo">
+                              Tempo Traveller
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      type="date"
-                      placeholder="Start date"
-                      className="bg-gray-50"
-                    />
-                    <Input
-                      type="date"
-                      placeholder="End date"
-                      className="bg-gray-50"
-                    />
-                  </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="state">State</Label>
+                          <Select
+                            value={roundTripForm.state}
+                            onValueChange={(value) =>
+                              setRoundTripForm((prev) => ({
+                                ...prev,
+                                state: value,
+                                city: "",
+                              }))
+                            }
+                          >
+                            <SelectTrigger className="w-full bg-gray-50">
+                              <SelectValue placeholder="Select state" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {states.map((state) => (
+                                <SelectItem
+                                  key={state.isoCode}
+                                  value={state.name}
+                                >
+                                  {state.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input placeholder="Total members" className="bg-gray-50" />
-                    <Input placeholder="Mobile" className="bg-gray-50" />
-                  </div>
+                        <div>
+                          <Label htmlFor="city">City</Label>
+                          <Select
+                            value={roundTripForm.city}
+                            onValueChange={(value) =>
+                              setRoundTripForm((prev) => ({
+                                ...prev,
+                                city: value,
+                              }))
+                            }
+                            disabled={!roundTripForm.state}
+                          >
+                            <SelectTrigger className="w-full bg-gray-50">
+                              <SelectValue
+                                placeholder={
+                                  roundTripForm.state
+                                    ? "Select city"
+                                    : "Select state first"
+                                }
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {cities.map((city) => (
+                                <SelectItem key={city.name} value={city.name}>
+                                  {city.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </div>
 
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold mt-6">
-                    Confirm
-                  </Button>
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="pickupAddress">Pickup Address</Label>
+                      <Input
+                        name="pickupAddress"
+                        value={roundTripForm.pickupAddress}
+                        onChange={handleRoundTripChange}
+                        placeholder="Enter pickup address"
+                        className="bg-gray-50 w-full"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="dropAddress">Drop Address</Label>
+                      <Input
+                        name="dropAddress"
+                        value={roundTripForm.dropAddress}
+                        onChange={handleRoundTripChange}
+                        placeholder="Enter drop address"
+                        className="bg-gray-50 w-full"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>Start Date & Time</Label>
+                        <DateTimePicker
+                          date={roundTripForm.startDate}
+                          setDate={(date) =>
+                            setRoundTripForm((prev) => ({
+                              ...prev,
+                              startDate: date,
+                            }))
+                          }
+                          placeholder="Select start date"
+                          fromDate={today}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>End Date & Time</Label>
+                        <DateTimePicker
+                          date={roundTripForm.endDate}
+                          setDate={(date) =>
+                            setRoundTripForm((prev) => ({
+                              ...prev,
+                              endDate: date,
+                            }))
+                          }
+                          placeholder="Select end date"
+                          fromDate={roundTripForm.startDate || today}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="members">Total Members</Label>
+                        <Input
+                          type="number"
+                          name="members"
+                          value={roundTripForm.members}
+                          onChange={handleRoundTripChange}
+                          placeholder="Number of members"
+                          className="bg-gray-50 w-full"
+                          min="1"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="mobile">Mobile Number</Label>
+                        <Input
+                          type="tel"
+                          name="mobile"
+                          value={roundTripForm.mobile}
+                          onChange={handleRoundTripChange}
+                          placeholder="Enter mobile number"
+                          className="bg-gray-50 w-full"
+                          maxLength="10"
+                        />
+                      </div>
+                    </div>
+
+                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold mt-6">
+                      Confirm Booking
+                    </Button>
+                  </div>
+                </form>
               </CardContent>
             </Card>
 
             {/* Local Trip */}
             <Card className="bg-white shadow-lg">
               <CardContent className="p-8">
-                <div className="text-center mb-6">
-                  <Button className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold">
-                    Local Trip
-                  </Button>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Select>
-                      <SelectTrigger className="bg-gray-50">
-                        <SelectValue placeholder="Select cab" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="sedan">Sedan</SelectItem>
-                        <SelectItem value="ertiga">Ertiga</SelectItem>
-                        <SelectItem value="innova">Innova</SelectItem>
-                        <SelectItem value="crysta">Innova Crysta</SelectItem>
-                        <SelectItem value="tempo">Tempo Traveller</SelectItem>
-                      </SelectContent>
-                    </Select>
-
-                    <Select>
-                      <SelectTrigger className="bg-gray-50">
-                        <SelectValue placeholder="Select place" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="local-jodhpur">
-                          Local Jodhpur
-                        </SelectItem>
-                        <SelectItem value="airport">
-                          Airport Transfer
-                        </SelectItem>
-                        <SelectItem value="railway">Railway Station</SelectItem>
-                        <SelectItem value="city-tour">City Tour</SelectItem>
-                      </SelectContent>
-                    </Select>
+                <form onSubmit={handleLocalTripSubmit}>
+                  <div className="text-center mb-6">
+                    <Button
+                      type="button"
+                      className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold w-full"
+                    >
+                      Local Trip
+                    </Button>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      placeholder="Pickup Address"
-                      className="bg-gray-50"
-                    />
-                    <Input placeholder="Drop Address" className="bg-gray-50" />
-                  </div>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="cab">Select Cab</Label>
+                        <Select
+                          name="cab"
+                          value={localTripForm.cab}
+                          onValueChange={(value) =>
+                            setLocalTripForm((prev) => ({
+                              ...prev,
+                              cab: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger className="w-full bg-gray-50">
+                            <SelectValue placeholder="Select cab" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="sedan">Sedan</SelectItem>
+                            <SelectItem value="ertiga">Ertiga</SelectItem>
+                            <SelectItem value="innova">Innova</SelectItem>
+                            <SelectItem value="crysta">
+                              Innova Crysta
+                            </SelectItem>
+                            <SelectItem value="tempo">
+                              Tempo Traveller
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      type="date"
-                      placeholder="Select date"
-                      className="bg-gray-50"
-                    />
-                    <Input
-                      type="time"
-                      placeholder="Select time"
-                      className="bg-gray-50"
-                    />
-                  </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="tripType">Trip Type</Label>
+                        <Select
+                          name="tripType"
+                          value={localTripForm.tripType}
+                          onValueChange={(value) =>
+                            setLocalTripForm((prev) => ({
+                              ...prev,
+                              tripType: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger className="w-full bg-gray-50">
+                            <SelectValue placeholder="Select trip type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="local-jodhpur">
+                              Local Jodhpur
+                            </SelectItem>
+                            <SelectItem value="airport">
+                              Airport Transfer
+                            </SelectItem>
+                            <SelectItem value="railway">
+                              Railway Station
+                            </SelectItem>
+                            <SelectItem value="city-tour">City Tour</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input placeholder="Total members" className="bg-gray-50" />
-                    <Input placeholder="Mobile" className="bg-gray-50" />
-                  </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="pickupAddress">Pickup Address</Label>
+                      <Input
+                        name="pickupAddress"
+                        value={localTripForm.pickupAddress}
+                        onChange={handleLocalTripChange}
+                        placeholder="Enter pickup address"
+                        className="bg-gray-50 w-full"
+                      />
+                    </div>
 
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold mt-6">
-                    Confirm
-                  </Button>
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="dropAddress">Drop Address</Label>
+                      <Input
+                        name="dropAddress"
+                        value={localTripForm.dropAddress}
+                        onChange={handleLocalTripChange}
+                        placeholder="Enter drop address"
+                        className="bg-gray-50 w-full"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Date & Time</Label>
+                      <DateTimePicker
+                        date={localTripForm.dateTime}
+                        setDate={(date) =>
+                          setLocalTripForm((prev) => ({
+                            ...prev,
+                            dateTime: date,
+                          }))
+                        }
+                        placeholder="Select date and time"
+                        fromDate={today}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="members">Total Members</Label>
+                        <Input
+                          type="number"
+                          name="members"
+                          value={localTripForm.members}
+                          onChange={handleLocalTripChange}
+                          placeholder="Number of members"
+                          className="bg-gray-50 w-full"
+                          min="1"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="mobile">Mobile Number</Label>
+                        <Input
+                          type="tel"
+                          name="mobile"
+                          value={localTripForm.mobile}
+                          onChange={handleLocalTripChange}
+                          placeholder="Enter mobile number"
+                          className="bg-gray-50 w-full"
+                          maxLength="10"
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold mt-6"
+                    >
+                      Confirm Booking
+                    </Button>
+                  </div>
+                </form>
               </CardContent>
             </Card>
           </div>

@@ -1,12 +1,21 @@
-// components/Header.tsx
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useState , useEffect } from "react";
 
 export const Header = () => {
+  const [open , setOpen] = useState(false);
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+  
+  
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
@@ -14,7 +23,11 @@ export const Header = () => {
     { name: "Services", href: "/#services" },
     { name: "Contact", href: "/contact" },
   ];
-
+  useEffect(() => {
+    if(pathname == "/#about"){
+      s
+    }
+  }, []);
   return (
     <header className="w-full border-b bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
@@ -45,7 +58,7 @@ export const Header = () => {
 
         {/* Mobile Menu (Sheet) */}
         <div className="md:hidden">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger>
               <Menu className="w-6 h-6" />
             </SheetTrigger>
