@@ -1,10 +1,13 @@
 "use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import axios from "axios";
 import { Send } from "lucide-react";
-import { useState } from "react";
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,29 +17,69 @@ export function ContactForm() {
     message: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    // Add form submission logic here
-    console.log("Form submitted:", formData);
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // Reset form
-      setFormData({ name: "", email: "", message: "" });
-    }, 1500);
-  };
-
   const handleChange = (e) => {
-    const { id, value } = e.target;
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [id]: value,
+      [name]: value,
     }));
   };
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.message.trim()
+    ) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (!validateEmail(formData.email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post("/api/email", formData);
+
+      if (response.data.success) {
+        toast.success("Message sent successfully!");
+        // Show preview URL in development
+        if (
+          process.env.NODE_ENV === "development" &&
+          response.data.previewUrl
+        ) {
+          console.log("Email preview:", response.data.previewUrl);
+        }
+        // Reset form
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        toast.error(response.data.message || "Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        "Failed to send message. Please try again later.";
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <div className=" p-6 md:p-12 rounded-3xl shadow-sm">
+    <div className="p-6 md:p-12 rounded-3xl shadow-sm">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="name" className="text-gray-700 font-medium">
@@ -45,10 +88,13 @@ export function ContactForm() {
           </Label>
           <Input
             id="name"
+            name="name"
+            type="text"
             value={formData.name}
             onChange={handleChange}
             placeholder="John Doe"
-            className="border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-xl px-4 py-3 transition-all duration-300"
+            className="border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-xl px-4 py-3 transition-all duration-300 w-full"
+            disabled={isSubmitting}
             required
           />
         </div>
@@ -60,11 +106,13 @@ export function ContactForm() {
           </Label>
           <Input
             id="email"
+            name="email"
             type="email"
             value={formData.email}
             onChange={handleChange}
             placeholder="your.email@example.com"
-            className="border-2 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 rounded-xl px-4 py-3 transition-all duration-300"
+            className="border-2 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 rounded-xl px-4 py-3 transition-all duration-300 w-full"
+            disabled={isSubmitting}
             required
           />
         </div>
@@ -76,11 +124,13 @@ export function ContactForm() {
           </Label>
           <Textarea
             id="message"
+            name="message"
             value={formData.message}
             onChange={handleChange}
             placeholder="How can we help you today?"
             rows={5}
-            className="border-2 border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 rounded-xl px-4 py-3 resize-y transition-all duration-300"
+            className="border-2 border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 rounded-xl px-4 py-3 resize-y transition-all duration-300 w-full"
+            disabled={isSubmitting}
             required
           />
         </div>

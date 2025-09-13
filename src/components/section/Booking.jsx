@@ -191,6 +191,7 @@ export default function Booking() {
         mobile: "",
       });
     } catch (error) {
+      setLoading(false);
       console.error("Error saving booking:", error);
       toast.error("Failed to save booking. Please try again.");
     }
@@ -241,6 +242,7 @@ export default function Booking() {
         mobile: "",
       });
     } catch (error) {
+      setLocalLoading(false);
       console.error("Error saving booking:", error);
       toast.error("Failed to save booking. Please try again.");
     }
