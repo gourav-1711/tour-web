@@ -1,6 +1,7 @@
 import React from "react";
-import { Header } from "@/components/Header";
 import EnhancedFooter from "@/components/EnhancedFooter";
+import { Header } from "@/components/header";
+
 
 export default function layout({ children }) {
   return (
