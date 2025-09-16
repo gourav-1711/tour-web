@@ -68,7 +68,7 @@ export const Header = () => {
         {/* Mobile Menu (Sheet) */}
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger>
+            <SheetTrigger className="cursor-pointer">
               <Menu className="w-6 h-6" />
             </SheetTrigger>
             <SheetContent side="right" className="p-6">

@@ -1,7 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import React, { useEffect, useState } from "react";
+import { Button } from "./button";
 
 export const ImagesSlider = ({
   images,
@@ -111,17 +113,17 @@ export const ImagesSlider = ({
   return (
     <div
       className={cn(
-        "overflow-hidden h-full w-full relative flex items-center justify-center",
+        "overflow-hidden h-full w-full relative flex items-center justify-center ",
         className
       )}
       style={{
-        perspective: "1000px",
+        perspective: "1500px",
       }}
     >
       {areImagesLoaded && children}
       {areImagesLoaded && overlay && (
         <div
-          className={cn("absolute inset-0 bg-black/30 z-40", overlayClassName)}
+          className={cn("absolute inset-0 bg-black/30 z-10", overlayClassName)}
         />
       )}
       {areImagesLoaded && (
@@ -140,46 +142,20 @@ export const ImagesSlider = ({
 
       {/* Navigation Arrows */}
       <div className="absolute inset-0 z-50 flex items-center justify-between p-4">
-        <button
+        <Button
           onClick={handlePrevious}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 text-white transition-colors duration-300 focus:outline-none"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 text-white transition-colors duration-300 focus:outline-none z-50 cursor-pointer"
           aria-label="Previous slide"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
-        <button
+          <ChevronLeftIcon className="h-6 w-6" />
+        </Button>
+        <Button
           onClick={handleNext}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 text-white transition-colors duration-300 focus:outline-none"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 text-white transition-colors duration-300 focus:outline-none z-50 cursor-pointer"
           aria-label="Next slide"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
+          <ChevronRightIcon className="h-6 w-6" />
+        </Button>
       </div>
     </div>
   );

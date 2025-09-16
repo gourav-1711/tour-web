@@ -94,11 +94,11 @@ export default function Fleet() {
               <div
                 data-aos="fade-up"
                 data-aos-delay={(index % 2) * 50}
-                className="relative w-[98%] p-3 sm:p-0 sm:w-[85%] md:w-[70%] lg:w-[47%]"
+                className="relative w-[98%] p-3 sm:p-0 sm:w-[85%] md:w-[70%] lg:w-[47%] group"
                 key={index}
               >
                 {/* Background box */}
-                <div className="rounded-[13px] absolute top-1/10 -translate-y-1/10 left-1/2 -translate-x-1/2 bg-red-500 max-w-[100%] w-[339px] h-[260px] sm:h-[239px] z-0 p-2"></div>
+                <div className="rounded-[13px] absolute top-1/10 -translate-y-1/10 left-1/2 -translate-x-1/2 bg-red-500 max-w-[100%] w-[339px] h-[260px] sm:h-[239px] z-0 p-2 group-hover:scale-105 transition-all duration-300"></div>
 
                 {/* Title */}
                 <h3 className="relative z-10 text-2xl font-bold mb-2 sm:mb-4 text-center text-background">
@@ -106,7 +106,7 @@ export default function Fleet() {
                 </h3>
 
                 {/* Content */}
-                <div className="flex gap-0 sm:gap-2 relative z-10 ">
+                <div className="flex gap-0 sm:gap-2 relative z-10 group-hover:scale-105 transition-all duration-300">
                   <div className="flex items-center">
                     <Image
                       width={200}

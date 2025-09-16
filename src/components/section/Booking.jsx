@@ -274,12 +274,11 @@ export default function Booking() {
                 <CardContent className="p-8">
                   <form onSubmit={handleRoundTripSubmit}>
                     <div className="text-center mb-6">
-                      <Button
-                        type="button"
-                        className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold w-full"
+                      <span
+                        className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold w-fit rounded-2xl"
                       >
                         Round Trip
-                      </Button>
+                      </span>
                     </div>
 
                     <div className="space-y-4">
@@ -481,12 +480,11 @@ export default function Booking() {
                 <CardContent className="p-8">
                   <form onSubmit={handleLocalTripSubmit}>
                     <div className="text-center mb-6">
-                      <Button
-                        type="button"
-                        className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold w-full"
+                      <span
+                       className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold w-fit rounded-2xl"
                       >
                         Local Trip
-                      </Button>
+                      </span>
                     </div>
 
                     <div className="space-y-4">

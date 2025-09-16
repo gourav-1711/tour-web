@@ -53,7 +53,7 @@ export default function Destination() {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section id="destinations" className="py-16 bg-gray-50">
       <div className="container max-w-6xl mx-auto px-4">
         <div className="text-center mb-12" data-aos="fade-up">
           <h2 className="text-3xl font-bold text-center mb-4">

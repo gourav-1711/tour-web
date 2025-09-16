@@ -8,9 +8,11 @@ export default function AOSProvider({ children }) {
   useEffect(() => {
     AOS.init({
       duration: 800,
-      easing: "ease-in-out",
+      easing: "cubic-bezier(0.645, 0.045, 0.355, 1.0)",
       once: true,
       mirror: false,
+      anchorPlacement : "top-top",
+      offset: 100,
     });
   }, []);
 

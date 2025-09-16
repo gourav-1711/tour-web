@@ -16,7 +16,7 @@ export default function About() {
   };
   return (
     <section id="about" className="relative h-[60vh] md:h-[80vh] ">
-      <ImagesSlider images={images} className="pointer-events-none">
+      <ImagesSlider images={images} className="">
         {/* Hero Section */}
         {/* <div className="absolute inset-0">
         <img

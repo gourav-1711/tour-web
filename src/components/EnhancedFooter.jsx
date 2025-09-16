@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 export default function EnhancedFooter() {
   const router = useRouter();
 
-
   return (
     <footer className="bg-gradient-to-br from-white via-gray-50 to-white text-gray-800 relative overflow-hidden border-t border-gray-200">
       {/* Background Pattern */}
@@ -33,7 +32,7 @@ export default function EnhancedFooter() {
             <div className="space-y-6" data-aos="fade-right">
               <div className="space-y-4">
                 <h3 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
-                  TourCab
+                  GuruKripa
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
                   Your trusted partner for comfortable and reliable cab services
@@ -73,7 +72,7 @@ export default function EnhancedFooter() {
                   { name: "Home", href: "/" },
                   { name: "Book Now", href: "/booking" },
                   { name: "Our Fleet", href: "/#fleet" },
-                  { name: "Destinations", href: "/destinations" },
+                  { name: "Destinations", href: "/#destinations" },
                   { name: "About Us", href: "/#about" },
                   { name: "Contact", href: "/contact" },
                 ].map((link, idx) => (
@@ -82,7 +81,7 @@ export default function EnhancedFooter() {
                     onClick={() => router.push(link.href)}
                     className="block text-gray-600 hover:text-red-600 transition-colors duration-300 hover:translate-x-2 transform hover:font-medium cursor-pointer"
                     data-aos="fade-right"
-                    data-aos-delay={`${(idx + 1) * 50}`}
+                    data-aos-delay={`${(idx + 1) * 10}`}
                   >
                     {link.name}
                   </span>
@@ -166,10 +165,16 @@ export default function EnhancedFooter() {
                   <div>
                     <p className="font-medium text-gray-800">Call Us</p>
                     <a
-                      href="tel:7568333373"
+                      href={`tel:${process.env.NEXT_PUBLIC_MOBILE_NUMBER}`}
                       className="text-gray-600 hover:text-red-600 transition-colors"
                     >
                       {process.env.NEXT_PUBLIC_MOBILE_NUMBER}
+                    </a>
+                    <a
+                      href={`tel:${process.env.NEXT_PUBLIC_MOBILE_2}`}
+                      className="text-gray-600 hover:text-red-600 transition-colors block"
+                    >
+                      {process.env.NEXT_PUBLIC_MOBILE_2}
                     </a>
                   </div>
                 </div>
@@ -183,7 +188,7 @@ export default function EnhancedFooter() {
                   <div>
                     <p className="font-medium text-gray-800">Email</p>
                     <a
-                      href="mailto:info@tourcab.com"
+                      href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}`}
                       className="text-gray-600 hover:text-red-600 transition-colors"
                     >
                       {process.env.NEXT_PUBLIC_EMAIL}
@@ -279,7 +284,7 @@ export default function EnhancedFooter() {
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="text-gray-600 text-sm">
-                &copy; {new Date().getFullYear()} TourCab. All rights reserved.
+                &copy; {new Date().getFullYear()} GuruKripa. All rights reserved.
                 | Serving Rajasthan with pride
               </div>
               <div className="flex space-x-6 text-sm text-gray-600">
