@@ -113,7 +113,7 @@ export const ImagesSlider = ({
   return (
     <div
       className={cn(
-        "overflow-hidden h-full w-full relative flex items-center justify-center ",
+        "overflow-hidden h-full w-full relative flex items-center justify-center group",
         className
       )}
       style={{
@@ -135,13 +135,13 @@ export const ImagesSlider = ({
             animate="visible"
             exit={direction === "up" ? "upExit" : "downExit"}
             variants={slideVariants}
-            className="image h-full w-full absolute inset-0 object-cover object-center"
+            className="image h-full w-full absolute inset-0 object-cover object-center "
           />
         </AnimatePresence>
       )}
 
       {/* Navigation Arrows */}
-      <div className="absolute inset-0 z-50 flex items-center justify-between p-4">
+      <div className="absolute inset-0 z-50 flex items-center justify-between p-4 ">
         <Button
           onClick={handlePrevious}
           className="flex items-center justify-center w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 text-white transition-colors duration-300 focus:outline-none z-50 cursor-pointer"

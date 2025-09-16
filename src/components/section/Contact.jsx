@@ -30,7 +30,7 @@ export default function Contact() {
             <div className="space-y-6">
               <a
                 href={`tel:${process.env.NEXT_PUBLIC_MOBILE_NUMBER}`}
-                className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300"
+                className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300 hover:text-red-500"
                 data-aos="fade-right"
                 data-aos-delay="150"
               >
@@ -39,13 +39,31 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Call Us</h3>
-                  <p className="text-slate-700">+91 {process.env.NEXT_PUBLIC_MOBILE_NUMBER}</p>
+                  <p className="text-slate-700">
+                    +91 {process.env.NEXT_PUBLIC_MOBILE_NUMBER}
+                  </p>
+                </div>
+              </a>
+              <a
+                href={`tel:${process.env.NEXT_PUBLIC_MOBILE_2}`}
+                className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300 hover:text-red-500"
+                data-aos="fade-right"
+                data-aos-delay="150"
+              >
+                <div className="bg-white/20 p-3 rounded-xl transition-all duration-300 group-hover:bg-white/30 group-hover:scale-110">
+                  <Phone className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Secondary Contact Number</h3>
+                  <p className="text-slate-700">
+                    +91 {process.env.NEXT_PUBLIC_MOBILE_2}
+                  </p>
                 </div>
               </a>
 
               <a
                 href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}`}
-                className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300"
+                className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300 hover:text-red-500"
                 data-aos="fade-right"
                 data-aos-delay="200"
               >
@@ -54,13 +72,15 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Email Us</h3>
-                  <p className="text-slate-700">{process.env.NEXT_PUBLIC_EMAIL}</p>
+                  <p className="text-slate-700">
+                    {process.env.NEXT_PUBLIC_EMAIL}
+                  </p>
                 </div>
               </a>
 
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${process.env.NEXT_PUBLIC_OFFICE_ADDRESS}`}
-                className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300"
+                className="flex items-start gap-4 group hover:scale-105 transition-transform duration-300 hover:text-red-500"
                 data-aos="fade-right"
                 data-aos-delay="250"
               >
@@ -69,7 +89,9 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Our Office</h3>
-                  <p className="text-slate-700">{process.env.NEXT_PUBLIC_OFFICE_ADDRESS}</p>
+                  <p className="text-slate-700">
+                    {process.env.NEXT_PUBLIC_OFFICE_ADDRESS}
+                  </p>
                 </div>
               </a>
             </div>

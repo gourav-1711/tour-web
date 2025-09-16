@@ -254,10 +254,10 @@ export default function Booking() {
       <section className=" mx-auto  py-16 bg-gradient-to-b from-blue-100 to-blue-200 min-h-[600px]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            <h1 data-aos="fade-up" data-aos-delay="100" className="text-4xl font-bold text-gray-800 mb-4">
               Book Your Cab
             </h1>
-            <p className="text-xl text-gray-600">
+            <p data-aos="fade-up" data-aos-delay="150" className="text-xl text-gray-600">
               Your Journey, Our Responsibility
             </p>
           </div>
@@ -270,7 +270,7 @@ export default function Booking() {
                 <Loader2 size={48} color="red" className="animate-spin" />
               </div>
             ) : (
-              <Card className="bg-white shadow-lg">
+              <Card data-aos="fade-up" data-aos-delay="200" className="bg-white shadow-lg">
                 <CardContent className="p-8">
                   <form onSubmit={handleRoundTripSubmit}>
                     <div className="text-center mb-6">
@@ -476,7 +476,7 @@ export default function Booking() {
                 <Loader2 size={48} color="red" className="animate-spin" />
               </div>
             ) : (
-              <Card className="bg-white shadow-lg">
+              <Card data-aos="fade-up" data-aos-delay="250" className="bg-white shadow-lg">
                 <CardContent className="p-8">
                   <form onSubmit={handleLocalTripSubmit}>
                     <div className="text-center mb-6">
@@ -640,7 +640,7 @@ export default function Booking() {
       {/* Why Choose Us */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+          <h2 data-aos="fade-up" className="text-3xl font-bold text-center mb-12 text-gray-800">
             Why Choose us
           </h2>
 
@@ -654,7 +654,7 @@ export default function Booking() {
               "Custom Itinerary Planning",
               "On-Time Guarantee",
             ].map((feature, index) => (
-              <div key={index} className="flex items-center space-x-3">
+              <div data-aos="fade-up" data-aos-delay={`${index * 100 }`} key={index} className="flex items-center space-x-3">
                 <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
                   <Check className="w-4 h-4 text-white" />
                 </div>
@@ -668,8 +668,8 @@ export default function Booking() {
       {/* About Us */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-8 text-gray-800">About Us</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <h2 data-aos="fade-up" className="text-3xl font-bold mb-8 text-gray-800">About Us</h2>
+          <p data-aos="fade-up" data-aos-delay="100" className="text-xl text-gray-600 max-w-2xl mx-auto">
             in progress.. on home page later
           </p>
         </div>
