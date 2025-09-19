@@ -111,6 +111,7 @@ export default function Fleet() {
                     <Image
                       width={200}
                       height={200}
+                      loading="lazy"
                       src={vehicle.image || "/placeholder.svg"}
                       alt={vehicle.name}
                       className="h-32 sm:h-36 w-auto drop-shadow-lg -ml-11 [@media(min-width:550px)]:-ml-0 sm:-mr-0 "
@@ -147,42 +148,3 @@ export default function Fleet() {
   );
 }
 
-//  <Card
-//                 key={index}
-//                 className="relative bg-red-500 text-white shadow-lg overflow-visible max-w-sm mx-auto rounded-lg w-[95%] sm:w-[45%]"
-//               >
-//                 <CardContent className="p-6 text-center">
-//                   {/* Vehicle Name */}
-//                   <h3 className="text-2xl font-bold mb-4">{vehicle.name}</h3>
-
-//                   {/* Vehicle Image (outside left) */}
-//                   <div className="absolute -left-12 md:-left-24 top-1/2 -translate-y-1/2">
-//                     <img
-//                       src={vehicle.image || "/placeholder.svg"}
-//                       alt={vehicle.name}
-//                       className="h-28 md:h-36 w-auto drop-shadow-lg"
-//                     />
-//                   </div>
-
-//                   {/* Features */}
-//                   <ul className="text-sm space-y-1 mb-4 ">
-//                     {vehicle.features.map((feature, idx) => (
-//                       <li key={idx} className="ml-5  text-right md:text-center">
-//                         {feature}
-//                       </li>
-//                     ))}
-//                   </ul>
-
-//                   {/* Price */}
-//                   {vehicle.price && (
-//                     <p className="font-semibold text-sm mb-4 ml-5">
-//                       {vehicle.price}
-//                     </p>
-//                   )}
-
-//                   {/* Book Button */}
-//                   <Button className="w-full bg-white text-red-500 font-semibold hover:bg-gray-100">
-//                     Book
-//                   </Button>
-//                 </CardContent>
-//               </Card>

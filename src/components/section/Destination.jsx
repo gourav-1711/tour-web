@@ -6,6 +6,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useRouter } from "next/navigation";
 import { Send } from "lucide-react";
+import Image from "next/image";
 
 export default function Destination() {
   const destinations = [
@@ -76,7 +77,10 @@ export default function Destination() {
               <Card className="overflow-hidden group cursor-pointer py-0 h-full transform hover:-translate-y-2 transition-all duration-300">
                 <div className="relative h-full flex flex-col">
                   <div className="flex-grow overflow-hidden">
-                    <img
+                    <Image
+                      width={1000}
+                      height={600}
+                      loading="lazy"
                       src={destination.image || "/placeholder.svg"}
                       alt={destination.name}
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
