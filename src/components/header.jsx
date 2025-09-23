@@ -1,21 +1,34 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
+import {
+  Banner,
+  BannerAction,
+  BannerClose,
+  BannerIcon,
+  BannerTitle,
+} from "@/components/ui/shadcn-io/banner";
+import { CircleAlert } from "lucide-react";
 
 export const Header = () => {
-  const [open , setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const pathname = usePathname();
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
-  
-  
+
   const navLinks = [
     { name: "Home", href: "/#" },
     { name: "About", href: "/#about" },
@@ -33,10 +46,11 @@ export const Header = () => {
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
       }
+      setOpen(false);
     }
   }, [pathname]);
   return (
-    <header className="w-full border-b bg-white shadow-sm sticky top-0 z-50">
+    <header className="w-full border-b bg-white shadow-sm sticky top-0 z-50 ">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
@@ -47,9 +61,10 @@ export const Header = () => {
             height={40}
             className="rounded object-cover size-10 md:size-14"
           />
-          <span className="font-bold text-lg sr-only">Cab Service</span>
+          <span className="font-semibold  text-lg sm:sr-only">
+            GuruKripa Tour
+          </span>
         </Link>
-
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-8">
           {navLinks.map((link) => (
@@ -64,7 +79,6 @@ export const Header = () => {
             </Link>
           ))}
         </nav>
-
         {/* Mobile Menu (Sheet) */}
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
@@ -72,11 +86,9 @@ export const Header = () => {
               <Menu className="w-6 h-6" />
             </SheetTrigger>
             <SheetContent side="right" className="p-6">
-              <SheetTitle className={"sr-only"}>
-                  Mobile Menu
-              </SheetTitle>
+              <SheetTitle className={"sr-only"}>Mobile Menu</SheetTitle>
               <SheetDescription className={"sr-only"}>
-                  website and pages description
+                website and pages description
               </SheetDescription>
               <nav className="flex flex-col gap-4 mt-4">
                 {navLinks.map((link) => (
@@ -93,6 +105,16 @@ export const Header = () => {
           </Sheet>
         </div>
       </div>
+      <div className="">
+        <Banner>
+          <BannerIcon icon={CircleAlert} />
+          <BannerTitle>New Travel Offer Available</BannerTitle>
+          <Link href="/#offer">
+            <BannerAction>Book Now</BannerAction>
+          </Link>
+          <BannerClose />
+        </Banner>
+      </div>
     </header>
   );
-}
+};

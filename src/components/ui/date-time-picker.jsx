@@ -109,7 +109,7 @@ export function DateTimePicker({
             >
               <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-2 mb-2 sm:mb-4">
                 {/* Hour and Minute - Always side by side */}
-                <div className="flex justify-center gap-1 mb-2 sm:mb-0">
+                <div className="grid md:grid-cols-2 gap-1 mb-2 sm:mb-0">
                   <div className="text-center flex-1 min-w-0">
                     <div className="text-xs sm:text-sm font-medium mb-1">
                       Hour

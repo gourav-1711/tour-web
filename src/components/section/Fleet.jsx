@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 export default function Fleet() {
   const router = useRouter();
@@ -12,74 +13,8 @@ export default function Fleet() {
     router.push(`/booking?destination=${destination}&rate=${rate}`);
   };
 
-  const fleetArr = [
-    {
-      name: "Sedan",
-      rate: "₹12 per KM",
-      features: [
-        "₹12 per KM",
-        "300 running fix",
-        "Night local extra",
-        "Day trip Extra",
-        "Border tax extra",
-      ],
-      price: "For Local ₹2500/-",
-      image: "/sedan.png",
-    },
-    {
-      name: "Ertiga",
-      rate: "₹13 per KM",
-      features: [
-        "₹13 per KM",
-        "300 running fix",
-        "Night local extra",
-        "Day trip Extra",
-        "Border tax extra",
-      ],
-      price: "For Local ₹2500/-",
-      image: "/ertiga.png",
-    },
-    {
-      name: "Innova",
-      rate: "₹15 per KM",
-      features: [
-        "₹15 per KM",
-        "300 running fix",
-        "Night local extra",
-        "Day trip Extra",
-        "Border tax extra",
-      ],
-      price: "For Local ₹3500/-",
-      image: "/innova.png",
-    },
-    {
-      name: "Innova Crysta",
-      rate: "₹18 per KM",
-      features: [
-        "₹18 per KM",
-        "300 running fix",
-        "Night local extra",
-        "Day trip Extra",
-        "Border tax extra",
-      ],
-      price: "For Local ₹3800/-",
-      image: "/innovacrysta.png",
-    },
-    {
-      name: "Tempo Traveller",
-      rate: "₹25 per KM",
-      features: [
-        "₹25 per KM",
-        "300 running fix",
-        "Night local extra",
-        "Day trip Extra",
-        "Border tax extra",
-      ],
-      price: "",
-      image: "/tempo.png",
-      isLarge: true,
-    },
-  ];
+  const { fleetDetails } = useSelector((state) => state.fleetDetails);
+
   return (
     <div>
       {/* Our Fleet */}
@@ -90,7 +25,7 @@ export default function Fleet() {
           </h2>
 
           <div className="flex flex-wrap justify-center space-y-6 gap-6 max-w-6xl mx-auto">
-            {fleetArr.map((vehicle, index) => (
+            {fleetDetails.map((vehicle, index) => (
               <div
                 data-aos="fade-up"
                 data-aos-delay={(index % 2) * 50}
@@ -147,4 +82,3 @@ export default function Fleet() {
     </div>
   );
 }
-

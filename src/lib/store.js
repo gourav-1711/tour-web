@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "./feautures/counter";
+import fleetDetailsReducer from "./feautures/fleetDetails";
 
 export const store = configureStore({
-    reducer: {
-        counter: counterSlice.reducer,
-    },
+  reducer: {
+    fleetDetails: fleetDetailsReducer,
+  },
 });

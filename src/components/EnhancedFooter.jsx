@@ -280,12 +280,12 @@ export default function EnhancedFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="bg-red-50 border-t border-red-100" data-aos="fade-up">
+        <div className="bg-red-50 border-t border-red-100">
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="text-gray-600 text-sm">
-                &copy; {new Date().getFullYear()} GuruKripa. All rights reserved.
-                | Serving Rajasthan with pride
+                &copy; {new Date().getFullYear()} GuruKripa. All rights
+                reserved. | Serving Rajasthan with pride
               </div>
               <div className="flex space-x-6 text-sm text-gray-600">
                 <a href="#" className="hover:text-red-600 transition-colors">
