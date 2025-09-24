@@ -1,7 +1,7 @@
 import { getDatabase, ref, get } from "firebase/database";
 import { app } from "@/app/(firebase)/firebase.config";
 
-export async function GET() {
+export async function POST(request) {
   try {
     const db = getDatabase(app);
     const bookingsRef = ref(db, "bookings");

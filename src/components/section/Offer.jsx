@@ -1,32 +1,46 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Clock, Calendar, Car, Check } from "lucide-react";
+import { MapPin, Clock, Calendar, Car, Check, Loader2Icon } from "lucide-react";
 import Image from "next/image";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 export default function Offer() {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Offer details
-  const offer = {
-    title: "UdaiPur Adventure",
-    location: "Udaipur, Rajasthan",
-    duration: "7 Days / 6 Nights",
-    price: "₹5000",
-    oldPrice: "₹6000",
-    discount: "20% OFF",
-    features: [
-      "Hotel Accommodation",
-      "Daily breakfast",
-      "Local Sightseeing",
-      "Full Place Guide",
-      "All entrance fees included",
-    ],
-    vehicle: "Innova Crysta",
-    dateRange: "October 1-14, 2025",
-    image: "/ahmedabad.png",
-  };
+  const { offer, isAvalible, loading } = useSelector(
+    (state) => state.offerDetails
+  );
+
+  if (!offer || Object.keys(offer).length === 0) {
+    return (
+      <section id="offer" className="text-center py-8 sr-only">
+        No offer found
+      </section>
+    );
+  }
+
+  if (loading) {
+    return (
+      <section id="offer" className="text-center py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-red-600 dark:text-red-400 sm:text-4xl mb-3">
+              Special Travel Offer
+            </h2>
+            <p className="mt-2 text-xl text-blue-700 dark:text-blue-300 font-medium">
+              Limited time exclusive package for your dream vacation
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <Loader2Icon className="animate-spin" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -91,10 +105,10 @@ export default function Offer() {
                 </div>
                 <div className="text-right">
                   <span className="text-3xl font-bold text-red-600 dark:text-red-400">
-                    {offer.price}
+                    ₹ {offer.price}
                   </span>
                   <p className="text-sm text-gray-500 line-through">
-                    {offer.oldPrice}
+                    ₹ {offer.oldPrice}
                   </p>
                 </div>
               </div>
@@ -134,9 +148,11 @@ export default function Offer() {
               </div>
 
               <div className="mt-8">
-                <Button className="w-full bg-gradient-to-r from-red-600 to-red-500 text-white py-6 text-lg font-semibold hover:from-red-700 hover:to-red-600 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-red-200 dark:hover:shadow-red-900/50">
-                  Book Now
-                </Button>
+                <a href={`tel:${process.env.NEXT_PUBLIC_MOBILE_NUMBER}`}>
+                  <Button className="w-full bg-gradient-to-r from-red-600 to-red-500 text-white py-6 text-lg font-semibold hover:from-red-700 hover:to-red-600 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-red-200 dark:hover:shadow-red-900/50">
+                    Book Now
+                  </Button>
+                </a>
               </div>
 
               <p className="mt-4 text-sm text-blue-600 dark:text-blue-300 text-center font-medium">

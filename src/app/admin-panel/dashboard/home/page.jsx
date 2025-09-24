@@ -31,7 +31,7 @@ export default function AdminHome() {
       setError(null);
       console.log("Fetching booking statistics...");
 
-      const response = await axios.get("/api/bookings/stats");
+      const response = await axios.post("/api/bookings/stats");
 
       if (response.data.success) {
         console.log("Received booking stats:", response.data.stats);
@@ -82,8 +82,8 @@ export default function AdminHome() {
   useEffect(() => {
     fetchBookingStats();
 
-    // Set up auto-refresh every 5 minutes
-    const refreshInterval = setInterval(fetchBookingStats, 5 * 60 * 1000);
+    // Auto refresh every 5 minutes
+    const refreshInterval = setInterval(fetchBookingStats, 1 * 60 * 1000);
 
     // Clean up interval on component unmount
     return () => clearInterval(refreshInterval);

@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
@@ -6,10 +7,10 @@ export async function POST(request) {
 
     // Validate input
     if (!name || !email || !message) {
-      return new Response(
-        JSON.stringify({ success: false, message: "All fields are required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return NextResponse.json({
+        success: false,
+        message: "All fields are required",
+      });
     }
 
     // Create transporter with Gmail SMTP
@@ -45,27 +46,15 @@ export async function POST(request) {
     // Send email
     await transporter.sendMail(mailOptions);
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Email sent successfully!",
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return NextResponse.json({
+      success: true,
+      message: "Email sent successfully!",
+    });
   } catch (error) {
     console.error("Error sending email:", error);
-    return new Response(
-      JSON.stringify({
-        success: false,
-        message: "Failed to send email. Please try again later.",
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return NextResponse.json({
+      success: false,
+      message: "Failed to send email. Please try again later.",
+    });
   }
 }

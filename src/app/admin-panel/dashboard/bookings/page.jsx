@@ -22,7 +22,7 @@ export default function BookingsPage() {
       setLoading(true);
       setError(null);
 
-      const response = await axios.get("/api/bookings");
+      const response = await axios.post("/api/bookings");
 
       if (response.data.success) {
         setBookings(response.data.data || []);

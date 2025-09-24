@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Menu,
   X,
+  Plus,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -27,6 +28,11 @@ const navigation = [
     href: "/admin-panel/dashboard/bookings",
     icon: Calendar,
   },
+  {
+    name: "Offers",
+    href: "/admin-panel/dashboard/offer",
+    icon: Plus,
+  },
 ];
 
 export function AdminSidebar() {
@@ -40,7 +46,7 @@ export function AdminSidebar() {
   return (
     <>
       <div
-        className=" w-[4.5%] h-full z-50 group border-r border-sidebar-border"
+        className=" w-fit h-full z-50 group border-r border-sidebar-border"
         onMouseEnter={() => setOpen(true)}
         
       >

@@ -1,7 +1,8 @@
-import { getDatabase, ref, get, update, child } from "firebase/database";
+import { getDatabase, ref, get, update } from "firebase/database";
 import { app } from "@/app/(firebase)/firebase.config";
+import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function POST(request) {
   try {
     const db = getDatabase(app);
     const bookingsRef = ref(db, "bookings");
@@ -9,9 +10,10 @@ export async function GET() {
     const snapshot = await get(bookingsRef);
 
     if (!snapshot.exists()) {
-      return Response.json({
+      return NextResponse.json({
         success: true,
         data: [],
+        message: "No Bookings Found",
       });
     }
 
@@ -22,21 +24,22 @@ export async function GET() {
         ...childSnapshot.val(),
       });
     });
+    const filterd = bookings.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
 
-    return Response.json({
+    return NextResponse.json({
       success: true,
-      data: bookings,
+      data: filterd,
+      message: "Bookings Found SuccessFully",
     });
   } catch (error) {
     console.error("Error fetching bookings:", error);
-    return Response.json(
-      {
-        success: false,
-        message: "Failed to fetch bookings",
-        error: error.message,
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      success: false,
+      message: "Failed to fetch bookings",
+      error: error.message,
+    });
   }
 }
 
@@ -45,13 +48,10 @@ export async function PUT(request) {
     const { bookingId, status } = await request.json();
 
     if (!bookingId || !status) {
-      return Response.json(
-        {
-          success: false,
-          message: "Missing required fields: bookingId and status are required",
-        },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        success: false,
+        message: "Missing required fields: bookingId and status are required",
+      });
     }
 
     const db = getDatabase(app);
@@ -60,31 +60,25 @@ export async function PUT(request) {
     // First check if booking exists
     const snapshot = await get(bookingRef);
     if (!snapshot.exists()) {
-      return Response.json(
-        {
-          success: false,
-          message: "Booking not found",
-        },
-        { status: 404 }
-      );
+      return NextResponse.json({
+        success: false,
+        message: "Booking not found",
+      });
     }
 
     // Update the booking status
     await update(bookingRef, { status });
 
-    return Response.json({
+    return NextResponse.json({
       success: true,
       message: "Booking status updated successfully",
     });
   } catch (error) {
     console.error("Error updating booking status:", error);
-    return Response.json(
-      {
-        success: false,
-        message: "Failed to update booking status",
-        error: error.message,
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      success: false,
+      message: "Failed to update booking status",
+      error: error.message,
+    });
   }
 }

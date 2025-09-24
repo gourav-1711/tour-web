@@ -19,6 +19,13 @@ import {
   BannerTitle,
 } from "@/components/ui/shadcn-io/banner";
 import { CircleAlert } from "lucide-react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addOffer,
+  removeOffer,
+  setLoading,
+} from "@/lib/feautures/offerDetails";
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
@@ -49,72 +56,102 @@ export const Header = () => {
       setOpen(false);
     }
   }, [pathname]);
+  const { offer, isAvalible, loading, showHeader } = useSelector(
+    (state) => state.offerDetails
+  );
+  const dispatch = useDispatch();
+
+  const fetchOffers = async () => {
+    dispatch(setLoading(true));
+    try {
+      const response = await axios.post("/api/offer/get");
+      dispatch(addOffer(response.data.data || {}));
+      dispatch(setLoading(false));
+    } catch (error) {
+      console.error("Error fetching offers:", error);
+      dispatch(removeOffer());
+      dispatch(setLoading(false));
+    }
+  };
+  useEffect(() => {
+    fetchOffers();
+  }, []);
+  console.log(offer);
+
   return (
-    <header className="w-full border-b bg-white shadow-sm sticky top-0 z-50 ">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo.png" // replace with your logo
-            alt="Logo"
-            width={40}
-            height={40}
-            className="rounded object-cover size-10 md:size-14"
-          />
-          <span className="font-semibold  text-lg sm:sr-only">
-            GuruKripa Tour
-          </span>
-        </Link>
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-gray-700 hover:text-red-500 font-medium relative group"
-            >
-              {link.name}
-              {/* line hover effect */}
-              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[3px] border-transparent group-hover:border-red-500 rounded-b-2xl group-hover:w-full transition-all duration-300"></span>
+    <>
+      {isAvalible && (
+        <div className="sticky top-0 z-50">
+          <Banner discount={offer.discount}>
+            <BannerIcon icon={CircleAlert} />
+            <BannerTitle>New Travel Offer Available</BannerTitle>
+            <Link href="/#offer">
+              <BannerAction>Book Now</BannerAction>
             </Link>
-          ))}
-        </nav>
-        {/* Mobile Menu (Sheet) */}
-        <div className="md:hidden">
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger className="cursor-pointer">
-              <Menu className="w-6 h-6" />
-            </SheetTrigger>
-            <SheetContent side="right" className="p-6">
-              <SheetTitle className={"sr-only"}>Mobile Menu</SheetTitle>
-              <SheetDescription className={"sr-only"}>
-                website and pages description
-              </SheetDescription>
-              <nav className="flex flex-col gap-4 mt-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className="text-lg font-medium text-gray-800 hover:text-red-500 "
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+            <BannerClose />
+          </Banner>
         </div>
-      </div>
-      <div className="">
-        <Banner>
-          <BannerIcon icon={CircleAlert} />
-          <BannerTitle>New Travel Offer Available</BannerTitle>
-          <Link href="/#offer">
-            <BannerAction>Book Now</BannerAction>
+      )}
+      <header
+        className={`w-full border-b bg-white shadow-sm  z-40 ${
+          isAvalible && !showHeader ? "" : "sticky top-0"
+        }`}
+      >
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo.png" // replace with your logo
+              alt="Logo"
+              width={40}
+              height={40}
+              className="rounded object-cover size-10 md:size-14"
+            />
+            <span className="font-semibold  text-lg sm:sr-only">
+              GuruKripa Tour
+            </span>
           </Link>
-          <BannerClose />
-        </Banner>
-      </div>
-    </header>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="text-gray-700 hover:text-red-500 font-medium relative group"
+              >
+                {link.name}
+                {/* line hover effect */}
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[3px] border-transparent group-hover:border-red-500 rounded-b-2xl group-hover:w-full transition-all duration-300"></span>
+              </Link>
+            ))}
+          </nav>
+          {/* Mobile Menu (Sheet) */}
+          <div className="md:hidden">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger className="cursor-pointer">
+                <Menu className="w-6 h-6" />
+              </SheetTrigger>
+              <SheetContent side="right" className="p-6">
+                <SheetTitle className={"sr-only"}>Mobile Menu</SheetTitle>
+                <SheetDescription className={"sr-only"}>
+                  website and pages description
+                </SheetDescription>
+                <nav className="flex flex-col gap-4 mt-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="text-lg font-medium text-gray-800 hover:text-red-500 "
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </header>
+    </>
   );
 };
