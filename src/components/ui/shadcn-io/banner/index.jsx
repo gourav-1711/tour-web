@@ -79,7 +79,7 @@ export const Banner = ({
             exit="hidden"
             variants={bannerVariants}
             className={cn(
-              "group relative flex w-full items-center justify-between gap-3 overflow-hidden px-6 py-3 text-white",
+              "group relative flex w-full items-center justify-between gap-1 md:gap-3 overflow-hidden px-1 md:px-6 py-1 md:py-3 text-white",
               "bg-gradient-to-r from-primary/80 via-primary to-primary/80 backdrop-blur-md",
               "border border-white/10 shadow-lg",
               "before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] before:from-white/10 before:to-transparent",
@@ -92,12 +92,12 @@ export const Banner = ({
             <div className="absolute inset-0 -z-10 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10" />
 
             <motion.div
-              className="relative z-10 flex w-full items-center gap-3"
+              className="relative z-10 flex w-full items-center gap-1 md:gap-3"
               variants={contentVariants}
             >
               {discount && (
-                <div className="flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 backdrop-blur-sm ">
-                  <span className="text-sm font-bold text-white">
+                <div className="flex items-center gap-2 rounded-full bg-white/20 px-2 md:px-3 py-1 backdrop-blur-sm ">
+                  <span className="text-xs md:text-sm font-bold text-white">
                     {discount}% OFF
                   </span>
                   <div className="h-4 w-px bg-white/30" />
@@ -137,7 +137,7 @@ export const BannerTitle = ({ className, ...props }) => (
     initial={{ x: -10, opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}
     transition={{ duration: 0.3, delay: 0.1 }}
-    className={cn("flex-1 text-md font-medium text-white/90", className)}
+    className={cn("flex-1 text-xs sm:text-sm md:text-md font-medium text-white/90", className)}
     {...props}
   />
 );

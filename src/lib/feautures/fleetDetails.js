@@ -79,9 +79,9 @@ const initialState = {
     },
   ],
   policies : [
-    "Night Extra ₹300",
+    "Night Extra ₹300 For Driver Fee",
     "Essential Supplies Free Like Water, Snacks",
-    "Toll & Fuel Extra",
+    "Toll Charge Extra",
     "Border Tax Extra",
   ]
 };

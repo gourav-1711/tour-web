@@ -1,10 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import React, { useState } from "react";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Clock, Calendar, Car, Check, Loader2Icon } from "lucide-react";
 import Image from "next/image";
-import axios from "axios";
 import { useSelector } from "react-redux";
 
 export default function Offer() {
@@ -64,7 +63,7 @@ export default function Offer() {
         >
           <div className="md:flex">
             {/* Image Section */}
-            <div className="md:w-1/2 relative h-80 md:h-auto group overflow-hidden rounded-l-xl">
+            <div className="md:w-1/2 relative h-80 md:h-auto group overflow-hidden rounded-xl">
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
                 <div className="absolute bottom-0 p-6 w-full">
                   <h3 className="text-2xl font-bold text-white mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">

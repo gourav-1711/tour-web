@@ -470,7 +470,7 @@ function OfferCard({ offers }) {
         <Card className="overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 group">
           <div className="md:flex">
             {/* Image Section */}
-            <div className="md:w-1/2 relative h-80 md:h-auto group overflow-hidden rounded-l-xl">
+            <div className="md:w-1/2 relative h-80 md:h-auto group overflow-hidden rounded-xl">
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
                 <div className="absolute bottom-0 p-6 w-full">
                   <h3 className="text-2xl font-bold text-white mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
@@ -487,7 +487,7 @@ function OfferCard({ offers }) {
                 src={offers.image}
                 alt={offers.title}
                 fill
-                className={`object-fill h-full w-full transition-all duration-700 group-hover:scale-105`}
+                className={`object-cover h-full w-full transition-all duration-700 group-hover:scale-105`}
                 loading="lazy"
               />
               <div className="absolute top-4 right-4 bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg z-20">

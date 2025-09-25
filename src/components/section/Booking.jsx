@@ -4,7 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, Globe2Icon, Loader2, LocationEditIcon } from "lucide-react";
+import {
+  Check,
+  Globe2Icon,
+  Info,
+  InfoIcon,
+  Loader2,
+  LocationEditIcon,
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -20,6 +27,8 @@ import { getDatabase, ref, push, set } from "firebase/database";
 import { app } from "@/app/(firebase)/firebase.config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { useSelector } from "react-redux";
+import WhyChooseUs from "./WhyChooseUs";
+import Policy from "./Policy";
 
 export default function Booking() {
   const [loading, setLoading] = useState(false);
@@ -229,7 +238,10 @@ export default function Booking() {
   return (
     <div>
       {/* Main Booking Section */}
-      <section className=" mx-auto  py-16 bg-gradient-to-b from-blue-100 to-blue-200 min-h-[600px]">
+      <section
+        id="booking"
+        className=" mx-auto  py-14 bg-gradient-to-b from-blue-100 to-blue-200/90 min-h-[600px]"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h1
@@ -279,10 +291,7 @@ export default function Booking() {
                   <Loader2 size={48} color="red" className="animate-spin" />
                 </div>
               ) : (
-                <Card
-                  data-aos="slide-up"
-                  className="bg-white shadow-lg"
-                >
+                <Card data-aos="slide-up" className="bg-white shadow-lg">
                   <CardContent className=" p-4 md:p-8">
                     <form onSubmit={handleRoundTripSubmit}>
                       <div className="text-center mb-6">
@@ -469,8 +478,9 @@ export default function Booking() {
                             />
                           </div>
                         </div>
+                        <BookingWarning />
 
-                        <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold mt-6">
+                        <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold ">
                           Confirm Booking
                         </Button>
                       </div>
@@ -486,10 +496,7 @@ export default function Booking() {
                   <Loader2 size={48} color="red" className="animate-spin" />
                 </div>
               ) : (
-                <Card
-                  data-aos="slide-up"
-                  className="bg-white shadow-lg"
-                >
+                <Card data-aos="slide-up" className="bg-white shadow-lg">
                   <CardContent className="p-4 md:p-8">
                     <form onSubmit={handleLocalTripSubmit}>
                       <div className="text-center mb-6">
@@ -628,10 +635,12 @@ export default function Booking() {
                             />
                           </div>
                         </div>
+                        {/* Booking Warning */}
+                        <BookingWarning />
 
                         <Button
                           type="submit"
-                          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold mt-6"
+                          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold "
                         >
                           Confirm Booking
                         </Button>
@@ -646,51 +655,20 @@ export default function Booking() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2
-            data-aos="fade-up"
-            className="text-3xl font-bold text-center mb-12 text-gray-800"
-          >
-            Why Choose us
-          </h2>
+      <Policy />
 
-          <div className="max-w-6xl mx-auto space-y-4">
-            {[
-              "24/7 Customer Support",
-              "All-India Permit Cabs",
-              "Well-Trained & Verified Drivers",
-              "Clean, Sanitized & GPS-enabled Vehicles",
-              "Flexible Pricing & Transparent Billing",
-              "Custom Itinerary Planning",
-              "On-Time Guarantee",
-            ].map((feature, index) => (
-              <div
-                data-aos="fade-up"
-                data-aos-delay={`${index * 100}`}
-                key={index}
-                className="flex items-center space-x-3"
-              >
-                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-lg text-gray-700">{feature}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Us */}
-      {/* <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 text-center">
-          <h2 data-aos="fade-up" className="text-3xl font-bold mb-8 text-gray-800">About Us</h2>
-          <p data-aos="fade-up" data-aos-delay="100" className="text-xl text-gray-600 max-w-2xl mx-auto">
-            in progress.. on home page later
-          </p>
-        </div>
-      </section> */}
+      <WhyChooseUs />
     </div>
   );
 }
+
+const BookingWarning = () => {
+  return (
+    <div className="flex items-center gap-1 text-gray-700 text-sm">
+      <InfoIcon className="size-5" />
+      <span className="font-semibold  ">
+        !! Please Read Our Policy Before Booking !!
+      </span>
+    </div>
+  );
+};
