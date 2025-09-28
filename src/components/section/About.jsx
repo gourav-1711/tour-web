@@ -25,9 +25,9 @@ export default function About() {
           ></div>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-12">
           <div
-            className="lg:w-1/2 group"
+            className="group"
             data-aos="fade-right"
             data-aos-delay="200"
           >
@@ -46,7 +46,7 @@ export default function About() {
           </div>
 
           <div
-            className="lg:w-1/2 space-y-6"
+            className="space-y-6"
             data-aos="fade-left"
             data-aos-delay="300"
           >

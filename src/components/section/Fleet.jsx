@@ -24,12 +24,12 @@ export default function Fleet() {
             Our <span className="text-red-500">Fleet</span>
           </h2>
 
-          <div className="flex flex-wrap justify-center space-y-6 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 justify-center space-y-6 gap-6 max-w-6xl mx-auto">
             {fleetDetails.map((vehicle, index) => (
               <div
                 data-aos="fade-up"
                 data-aos-delay={(index % 2) * 50}
-                className="relative w-[98%] p-3 sm:p-0 sm:w-[85%] md:w-[70%] lg:w-[47%] group"
+                className="relative  p-3  group"
                 key={index}
               >
                 {/* Background box */}

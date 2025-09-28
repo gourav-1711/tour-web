@@ -23,19 +23,22 @@ export default function ImageChange() {
   }, [imageIndex]);
 
   return (
-    <div className="relative w-full h-64 md:h-96 overflow-hidden bg-gradient-to-r from-black/90 to-black/80">
+    <div className="relative w-full h-64 md:h-96 overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.img
           key={imageIndex}
           src={images[imageIndex].src}
           alt={images[imageIndex].alt}
-          className="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-105"
-          initial={{ opacity: 0, scale: 0.8 }}
+          className="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.2 }}
           transition={{ duration: 0.3 }}
         />
       </AnimatePresence>
+
+      {/* overlay only on hover (desktop) */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/80 opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
     </div>
   );
 }
