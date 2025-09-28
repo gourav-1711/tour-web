@@ -4,6 +4,7 @@ import { MapPin, ShieldCheck, Star } from "lucide-react";
 import "aos/dist/aos.css";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import ImageChange from "../ui/ImageChange";
 
 export default function About() {
   const router = useRouter();
@@ -31,13 +32,8 @@ export default function About() {
             data-aos-delay="200"
           >
             <div className="relative rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
-              <div className="absolute inset-0 bg-gradient-to-r from-red-600/90 to-red-800/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-              <img
-                loading="lazy"
-                src="https://images.unsplash.com/photo-1527631746610-bca00a040d6d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                alt="Travel with us"
-                className="w-full h-64 md:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
-              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/80 opacity-0 group-hover:opacity-40 transition-opacity duration-500 z-10"></div>
+              <ImageChange />
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                 <h3 className="text-2xl font-bold mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   Your Journey, Our Priority
@@ -127,7 +123,7 @@ export default function About() {
 
             <Button
               onClick={() => router.push("/#services")}
-              className="mt-6 px-8 py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-red-200 hover:shadow-xl"
+              className="mt-6 px-8 py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-red-200 hover:shadow-xl "
               data-aos="fade-up"
               data-aos-delay="550"
             >
