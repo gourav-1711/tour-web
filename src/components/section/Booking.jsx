@@ -663,8 +663,16 @@ export default function Booking() {
 }
 
 const BookingWarning = () => {
+  const scrollTo = () => {
+    const section = document.querySelector("#policy")
+
+    section.scrollIntoView({behavior : "smooth"})
+  };
   return (
-    <div className="flex items-center gap-1 text-gray-700 text-sm">
+    <div
+      onClick={scrollTo}
+      className="flex items-center gap-1 text-gray-700 text-sm hover:text-red-500 duration-300 cursor-pointer"
+    >
       <InfoIcon className="size-5" />
       <span className="font-semibold  ">
         !! Please Read Our Policy Before Booking !!

@@ -49,7 +49,7 @@ export default function Fleet() {
                       loading="lazy"
                       src={vehicle.image || "/placeholder.svg"}
                       alt={vehicle.name}
-                      className="h-32 sm:h-36 w-auto drop-shadow-lg -ml-11 [@media(min-width:550px)]:-ml-0 sm:-mr-0 "
+                      className={`h-32 sm:h-36 w-60 drop-shadow-lg -ml-11 [@media(min-width:550px)]:-ml-0 sm:-mr-0  ${vehicle.isLarge ? " scale-[1.2]":""}`}
                     />
                   </div>
                   <div className="text-background">

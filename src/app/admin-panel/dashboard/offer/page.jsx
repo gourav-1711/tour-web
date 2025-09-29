@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AdminHeader } from "@/components/admin/admin-header";
+import { toast } from "sonner";
 
 export default function page() {
   const [offers, setOffers] = useState({});
@@ -206,7 +207,22 @@ export default function page() {
       console.error("Error saving offer:", error);
     }
   };
-  console.log(formData);
+
+  const deleteOffer = async () => {
+    try {
+      const response = await axios.post("/api/offer/delete", {
+        image: offers.image,
+      });
+      if (response.status === 200 || response.data.status) {
+        toast.success("Offer deleted successfully");
+        await fetchOffers();
+      }
+    } catch (error) {
+      toast.error(
+        error.message || error.data.message || "Error deleting offer"
+      );
+    }
+  };
 
   if (loading) {
     return <div className="text-center py-8">Loading offers...</div>;
@@ -215,29 +231,36 @@ export default function page() {
   return (
     <section
       id="offer"
-      className="bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 transition-all duration-300"
+      className="bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 transition-all duration-300 "
     >
       <AdminHeader
         title={"Special Travel Offer"}
         description={"Limited time exclusive package for your dream vacation"}
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
         <div className="flex justify-between items-center my-4">
           <h2 className="text-3xl font-bold text-gray-800">Special Offers</h2>
           {Object.keys(offers).length > 0 && (
-            <Button
-              onClick={() => setShowForm(!showForm)}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              {showForm ? "Cancel" : "Edit Offer"}
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                onClick={() => setShowForm(!showForm)}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                {showForm ? "Cancel" : "Edit Offer"}
+              </Button>
+              <Button
+                onClick={deleteOffer}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                Delete Offer
+              </Button>
+            </div>
           )}
         </div>
         {/* show form when showForm is true */}
         {showForm && (
           <Card className="mb-8">
-            <CardContent className="p-6">
+            <CardContent className="p-6 no-scrollbar">
               <form onSubmit={handleSubmit}>
                 <h3 className="text-xl font-semibold mb-4">
                   {Object.keys(offers).length > 0
@@ -386,20 +409,25 @@ export default function page() {
                         onChange={handleInputChange}
                         accept="image/*"
                       />
-                      {imagePreview ||
-                        (offers.image && (
-                          <div className="relative w-48 h-32 border rounded-lg overflow-hidden">
-                            <img
-                              src={imagePreview || offers.image}
-                              alt="Preview"
-                              fill
-                              className="object-cover"
-                            />
-                            <div className="absolute top-2 right-2">
-                              <Eye className="h-4 w-4 text-white bg-black bg-opacity-50 rounded p-1" />
-                            </div>
+                      <div className="max-w-[400px] w-full">
+                        {imagePreview ? (
+                          <img
+                            src={imagePreview}
+                            alt="Preview"
+                            className="object-cover w-full h-full"
+                          />
+                        ) : offers.image ? (
+                          <img
+                            src={offers.image}
+                            alt="Existing"
+                            className="object-cover w-full h-full"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-gray-400">
+                            No Image
                           </div>
-                        ))}
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -486,7 +514,6 @@ function OfferCard({ offers }) {
               <img
                 src={offers.image}
                 alt={offers.title}
-                fill
                 className={`object-cover h-full w-full transition-all duration-700 group-hover:scale-105`}
                 loading="lazy"
               />

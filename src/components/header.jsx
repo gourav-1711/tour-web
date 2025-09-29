@@ -56,7 +56,7 @@ export const Header = () => {
       setOpen(false);
     }
   }, [pathname]);
-  const { offer, isAvalible, loading, showHeader } = useSelector(
+  const { offer, isAvalible, showHeader } = useSelector(
     (state) => state.offerDetails
   );
   const dispatch = useDispatch();
@@ -65,6 +65,12 @@ export const Header = () => {
     dispatch(setLoading(true));
     try {
       const response = await axios.post("/api/offer/get");
+
+      if (!response.data.status) {
+        dispatch(removeOffer());
+        dispatch(setLoading(false));
+        return;
+      }
       dispatch(addOffer(response.data.data || {}));
       dispatch(setLoading(false));
     } catch (error) {

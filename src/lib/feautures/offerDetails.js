@@ -26,9 +26,14 @@ const offerDetailsSlice = createSlice({
     onCloseBanner(state) {
       state.showHeader = true;
     },
-   
   },
 });
 
-export const { addOffer, removeOffer, setLoading ,onCloseBanner } = offerDetailsSlice.actions;
+export const {
+  addOffer,
+  removeOffer,
+  setLoading,
+  onCloseBanner,
+  onOpenBanner,
+} = offerDetailsSlice.actions;
 export default offerDetailsSlice.reducer;

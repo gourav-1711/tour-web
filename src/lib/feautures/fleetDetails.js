@@ -70,7 +70,7 @@ const initialState = {
       ],
       price: "For Local ₹4500/-",
       image: "/tempo.png",
-      isLarge: true,
+      isLarge: false,
     },
     {
       name: "Toofan",
@@ -84,7 +84,7 @@ const initialState = {
       ],
       price: "For Local ₹3000/-",
       image: "/toofan.png",
-      isLarge: false,
+      isLarge: true,
     },
     {
       name: "Bus (52 Seater)",
@@ -93,14 +93,15 @@ const initialState = {
       features: ["₹25 per KM", "300 running fix", "Night local extra"],
       price: "For Local ₹4500/-",
       image: "/bus.png",
-      isLarge: true,
+      isLarge: false,
     },
   ],
   policies: [
+    "We'll Contact You Autometically After SuccesFull Booking",
     "Night Extra ₹300 For Driver Fee",
     "Essential Supplies Free Like Water, Snacks",
-    "Toll Charge Extra",
-    "Border Tax Extra",
+    "Toll Charge Extra and Border Tax Extra",
+    
   ],
 };
 

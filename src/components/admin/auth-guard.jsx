@@ -1,29 +1,30 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { isAuthenticated } from "@/lib/auth"
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { isAuthenticated } from "@/lib/auth";
+import { Loader2Icon } from "lucide-react";
 
 export function AuthGuard({ children }) {
-  const [isLoading, setIsLoading] = useState(true)
-  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     if (!isAuthenticated()) {
-      router.push("/admin-panel")
-      setIsLoading(false)
+      router.push("/admin-panel");
+      setIsLoading(false);
     } else {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [router])
+  }, [router]);
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <Loader2Icon className="animate-spin size-12" />
       </div>
-    )
+    );
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }
