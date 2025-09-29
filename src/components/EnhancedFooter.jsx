@@ -1,4 +1,3 @@
-"use client";
 import {
   Phone,
   MessageCircle,
@@ -10,11 +9,9 @@ import {
   Shield,
   Car,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function EnhancedFooter() {
-  const router = useRouter();
-
   return (
     <footer className="bg-gradient-to-br from-white via-gray-50 to-white text-gray-800 relative overflow-hidden border-t border-gray-200">
       {/* Background Pattern */}
@@ -76,15 +73,15 @@ export default function EnhancedFooter() {
                   { name: "About Us", href: "/#about" },
                   { name: "Contact", href: "/contact" },
                 ].map((link, idx) => (
-                  <span
+                  <Link
                     key={link.name}
-                    onClick={() => router.push(link.href)}
+                    href={link.href}
                     className="block text-gray-600 hover:text-red-600 transition-colors duration-300 hover:translate-x-2 transform hover:font-medium cursor-pointer"
                     data-aos="fade-right"
                     data-aos-delay={`${(idx + 1) * 10}`}
                   >
                     {link.name}
-                  </span>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -288,15 +285,9 @@ export default function EnhancedFooter() {
                 reserved. | Serving Rajasthan with pride
               </div>
               <div className="flex space-x-6 text-sm text-gray-600">
-                <a href="#" className="hover:text-red-600 transition-colors">
+                <Link href="/booking#policy" className="hover:text-red-600 transition-colors">
                   Privacy Policy
-                </a>
-                <a href="#" className="hover:text-red-600 transition-colors">
-                  Terms of Service
-                </a>
-                <a href="#" className="hover:text-red-600 transition-colors">
-                  FAQ
-                </a>
+                </Link>
               </div>
             </div>
           </div>

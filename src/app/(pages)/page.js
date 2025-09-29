@@ -6,6 +6,7 @@ import Fleet from "@/components/section/Fleet";
 import Offer from "@/components/section/Offer";
 import Services from "@/components/section/Services";
 export default function Home() {
+  
   return (
     <>
       <Banner />
@@ -13,7 +14,7 @@ export default function Home() {
       <Fleet />
       <Offer />
       <Services />
-      <About/>
+      <About />
     </>
   );
 }
