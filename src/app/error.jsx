@@ -45,16 +45,6 @@ export default function Error({ error, reset }) {
           <p className="text-sm text-gray-500">
             Error: {error.message || "Unknown error occurred"}
           </p>
-          {/* {process.env.NODE_ENV === 'development' && error.stack && (
-            <details className="mt-4 text-left">
-              <summary className="text-sm font-medium text-gray-700 cursor-pointer">
-                Stack trace
-              </summary>
-              <pre className="mt-2 p-4 bg-gray-50 rounded-md overflow-auto text-xs text-gray-600">
-                {error.stack}
-              </pre>
-            </details>
-          )} */}
         </div>
       </div>
     </div>

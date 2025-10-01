@@ -6,8 +6,9 @@ const initialState = {
       name: "Sedan",
       value: "sedan",
       rate: "₹10 per KM",
+      bold : "₹10",
       features: [
-        "₹12 per KM",
+        "₹10 per KM",
         "300 running fix",
         "Night local ₹300 extra",
         "5 Seater",
@@ -20,6 +21,7 @@ const initialState = {
       name: "Ertiga",
       value: "ertiga",
       rate: "₹13 per KM",
+      bold : "₹13",
       features: [
         "₹13 per KM",
         "300 running fix",
@@ -34,6 +36,7 @@ const initialState = {
       name: "Innova",
       value: "innova",
       rate: "₹15 per KM",
+      bold : "₹15",
       features: [
         "₹15 per KM",
         "300 running fix",
@@ -48,8 +51,9 @@ const initialState = {
       name: "Innova Crysta",
       value: "innovaCrysta",
       rate: "₹17 per KM",
+      bold : "₹17",
       features: [
-        "₹18 per KM",
+        "₹17 per KM",
         "300 running fix",
         "Night local ₹300 extra",
         "8 Seater",
@@ -62,6 +66,7 @@ const initialState = {
       name: "Tempo Traveller",
       value: "tempo",
       rate: "₹25 per KM",
+      bold : "₹25",
       features: [
         "₹25 per KM",
         "300 running fix",
@@ -76,6 +81,7 @@ const initialState = {
       name: "Toofan",
       value: "toofan",
       rate: "₹15 per KM",
+      bold : "₹15",
       features: [
         "₹15 per KM",
         "300 running fix",
@@ -90,6 +96,7 @@ const initialState = {
       name: "Bus (52 Seater)",
       value: "bus",
       rate: "₹25 per KM",
+      bold : "₹25",
       features: ["₹25 per KM", "300 running fix", "Night local extra"],
       price: "For Local ₹4500/-",
       image: "/bus.png",
@@ -101,7 +108,6 @@ const initialState = {
     "Night Extra ₹300 For Driver Fee",
     "Essential Supplies Free Like Water, Snacks",
     "Toll Charge Extra and Border Tax Extra",
-    
   ],
 };
 

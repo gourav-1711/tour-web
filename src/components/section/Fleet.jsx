@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -49,15 +48,38 @@ export default function Fleet() {
                       loading="lazy"
                       src={vehicle.image || "/placeholder.svg"}
                       alt={vehicle.name}
-                      className={`h-32 sm:h-36 w-60 drop-shadow-lg -ml-11 [@media(min-width:550px)]:-ml-0 sm:-mr-0  ${vehicle.isLarge ? " scale-[1.2]":""}`}
+                      className={`h-32 sm:h-36 w-60 drop-shadow-lg -ml-11 [@media(min-width:550px)]:-ml-0 sm:-mr-0  ${
+                        vehicle.isLarge ? " scale-[1.2]" : ""
+                      }`}
                     />
                   </div>
                   <div className="text-background">
                     {/* Features */}
+                    {/* Features */}
                     <ul className="text-sm space-y-1 mb-2 sm:mb-2 font-medium text-shadow-sm -ml-9 [@media(min-width:550px)]:-ml-0">
-                      {vehicle.features.map((feature, idx) => (
-                        <li key={idx}>{feature}</li>
-                      ))}
+                      {vehicle.features.map((feature, idx) => {
+                        const formattedFeature = feature
+                          .split(" ")
+                          .map((word, wordIdx) => {
+                            if (word === vehicle.bold) {
+                              return (
+                                <span
+                                  key={wordIdx}
+                                  className="text-xl font-extrabold"
+                                >
+                                  {word}{" "}
+                                </span>
+                              );
+                            }
+                            return <span key={wordIdx}>{word} </span>;
+                          });
+
+                        return (
+                          <li key={idx}>
+                            {formattedFeature}
+                          </li>
+                        );
+                      })}
                     </ul>
                     {/* Price */}
                     {vehicle.price && (
