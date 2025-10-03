@@ -79,14 +79,14 @@ export default function Policy() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "Your Company Name",
-            url: "https://yourwebsite.com",
+            name: "Gurukripa Tours",
+            url: "https://tour-web-eta.vercel.app/",
             description: "Company policies and terms of service",
             policy: policies.map((policy, index) => ({
               "@type": "Policy",
               name: `Policy ${index + 1}`,
               description: policy,
-              url: `https://yourwebsite.com/policy#policy-${index + 1}`,
+              url: `https://tour-web-eta.vercel.app/#policy`,
             })),
           }),
         }}

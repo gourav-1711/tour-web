@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://tour-web-eta.vercel.app/sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /admin-panel/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Allow all other pages
+Allow: /
+Allow: /about
+Allow: /booking
+Allow: /contact
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Block common spam bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

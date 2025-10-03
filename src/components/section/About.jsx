@@ -1,13 +1,26 @@
 "use client";
 import React from "react";
-import { MapPin, ShieldCheck, Star } from "lucide-react";
+import { MapPin, ShieldCheck, Star, Users, Award, Clock, Phone, Mail } from "lucide-react";
 import "aos/dist/aos.css";
 import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
 import { useRouter } from "next/navigation";
 import ImageChange from "../ui/ImageChange";
 
 export default function About() {
   const router = useRouter();
+
+  const stats = [
+    // { icon: Users, value: "10,000+", label: "Happy Customers" },
+    // { icon: Award, value: "5+", label: "Years Experience" },
+    // { icon: MapPin, value: "50+", label: "City Covered" },
+    // { icon: Clock, value: "24/7", label: "Customer Support" }
+  ];
+
+  const team = [
+    
+  ];
+
   return (
     <section id="about" className="py-16 md:py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4">
@@ -94,7 +107,7 @@ export default function About() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 group-hover/item:text-red-700 transition-colors duration-300">
-                    Safe & Reliable
+                    Safe & reliable
                   </h4>
                   <p className="text-gray-600 group-hover/item:text-gray-800 transition-colors duration-300">
                     Well-maintained vehicles with trained chauffeurs
@@ -119,6 +132,47 @@ export default function About() {
                   </p>
                 </div>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {stats.map((stat, index) => (
+                <Card key={index}>
+                  <CardContent>
+                    <div className="flex items-center gap-4">
+                      <stat.icon className="w-8 h-8 text-red-600" />
+                      <div>
+                        <h4 className="font-semibold text-gray-900">
+                          {stat.value}
+                        </h4>
+                        <p className="text-gray-600">{stat.label}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {team.map((member, index) => (
+                <Card key={index}>
+                  <CardContent>
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-16 h-16 rounded-full"
+                      />
+                      <div>
+                        <h4 className="font-semibold text-gray-900">
+                          {member.name}
+                        </h4>
+                        <p className="text-gray-600">{member.role}</p>
+                        <p className="text-gray-600">{member.experience}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
 
             <Button
